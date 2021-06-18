@@ -1,0 +1,39 @@
+body {
+    background: #333333;
+    color: #fafafa;
+    margin-top: 5rem;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    color: #d9e4eb;
+  }
+  
+  .content-section .form-group {
+    color: #333333
+  }
+
+  .bg-steel {
+    background-color: #2e3a42;
+  }
+  
+  .site-header .navbar-nav .nav-link {
+    color: #d9e4eb;
+  }
+  
+  .site-header .navbar-nav .nav-link:hover {
+    color: #d9e4eb;
+  }
+  
+  .site-header .navbar-nav .nav-link.active {
+    font-weight: 500;
+  }
+  
+  .content-section {
+    background: #fafafa;
+    padding: 10px 20px;
+    border: 1px solid #dddddd;
+    border-radius: 3px;
+    margin-bottom: 20px;
+  }
+
+  

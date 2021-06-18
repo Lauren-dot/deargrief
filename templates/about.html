@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<body>
+<h2>“Love goes very far beyond the physical person of the beloved. 
+    It finds its deepest meaning in his spiritual being, his inner self.” 
+    Victor Frankl, <i>Man’s Search for Meaning</i>
+</h2>
+
+<p>
+    Just because the deceased is not here does not mean that you stopped loving them or even that your relationship has ended. It has changed. Significantly. But it isn’t the end. The love you have for them is strong and enduring. Grief is what we feel when the physical person of the beloved changes. 
+    With death, the love remains; simply, the nature of the relationship changes.
+    Learning how to ask your grief to live with you, productively, is a skill. For some people, this skill comes naturally. 
+    For others, it's a skill that needs to be cultivated. 
+    As Lisa Feldman Barnett states, “you are the architect of your experience.” This is not to say that grief isn’t valid; it is. Or that it is your fault; it is not. 
+    Nonetheless, you are the only one who can change how you feel about your grief. 
+    Right now, your grief might be so raw you can barely stand to breathe; 
+    maybe you feel like your grief is controlling your life’s journey as you sit here right now. 
+    It can feel like a horror-story monster, looming over your every move. 
+    And yet. 
+    Over time, you have the power to introduce yourself to your grief. 
+    And then, with work, ask your grief to walk with you, hand-in-hand. 
+    And eventually, you can ask your grief to allow the rest of you to take the lead.
+</p>
+
+<h2>
+    Want to know more about this sixty day process? <a href="/process">Click here.</a>
+</h2>
+
+  <form action="/signup">
+      <label>Enter Your Name:
+          <input type="text" id="bereaved" name="username">
+      </label>
+      <label>Enter the name of the person who died:
+        <input type="text" id="deceased" name="deceased">
+    </label>
+    <label>Enter your relationship to them:
+        <input type="text" id="relationship" name="relationship">
+    </label>
+      <input type="submit" value="Display User">
+  </form>
+
+</body>
+
+{% endblock content %}

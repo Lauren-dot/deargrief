@@ -1,0 +1,14 @@
+{% extends layout.html %}
+{% block content %}
+    <h1>Today, please write about: </h1>
+    {% for prompt in prompts %}
+        <h2>{{ prompt.daily_prompt }}</h2> <!-- Out of the dictionary prompt, calls value of daily_prompt -->
+        <h3>Dear Grief, </h3>
+        <form>
+            <!-- Insert "quick grief analysis" buttons -->
+            <!-- Insert input text form and submit button -->
+            <!-- Store information (both numerical and text) in individual user's database -->
+        </form>
+        <h3> {{ prompt.rationale }} </h3> <!-- Out of dictionary prompt, print the rational (why this prompt, why now) to help be transparent about grief guidance -->
+    {% endfor %}
+{% endblock content %}

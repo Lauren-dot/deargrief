@@ -54,7 +54,7 @@ class GriefConnection(db.Model):
     deceased_persons = db.relationship("Deceased", backref="bereaved")
 
 
-class UserGriefSequence(db.Model):
+class GriefSequence(db.Model):
     """Data Model to assess where a bereaved person 
     is in the cycle of this particuar grief with this particular loss"""
     __tablename__ = "grief_sequence"
@@ -77,7 +77,7 @@ class UserGriefSequence(db.Model):
         return greeting
 
 
-class GriefSequenceStatus(db.Model):
+class SequenceStatus(db.Model):
     """Catalogues status of Grief Sequence.
     Examples: Active, Abandonded, Paused, Completed"""
     __tablename__ = "sequence_status"

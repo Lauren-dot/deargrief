@@ -15,7 +15,7 @@
 
 #     return movie
 
-from model import Bereaved, Deceased, JournalEntry
+from model import Bereaved, Deceased, GriefConnection, JournalEntry
 
 
 def create_bereaved(id, firstname, lastname, email, password, date_first_registered):
@@ -49,6 +49,23 @@ def create_deceased(id, firstname, lastname, bereaved_id):
     db.session.commit()
 
     return deceased
+
+def create_grief_connection(id, bereaved_id, deceased_id):
+    """Create and return an identifiable connection 
+    between a bereaved user and a deceased person 
+    for whom the bereaved is grieving"""
+
+    grief_connection = GriefConnection(
+        id=id,
+        bereaved_id=bereaved_id,
+        deceased_id=deceased_id,
+    )
+
+    db.session.add(grief_connection)
+    db.session.commit()
+
+    return grief_connection
+
 
 def create_journal_entries(id, grief_connection_id, prompt_series_id, prompt_id, prompt_day, entry):
     """Create and return a user/bereaved's journal entry about a specific deceased person"""

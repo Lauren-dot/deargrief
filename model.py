@@ -1,4 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
 
 db = SQLAlchemy()
 
@@ -31,6 +32,8 @@ class Deceased(db.Model):
     lastname = db.Column(db.String(50), nullable=False)
     bereaved_id = db.Column(db.Interger, db.ForeignKey("bereaved_persons.id"), nullable=False)
 
+    # See bereaved persons table for the "backref" here.
+
     def __repr__(self):
         """Show information about bereaved user"""
 
@@ -38,18 +41,31 @@ class Deceased(db.Model):
 
         return greeting
 
+class GriefConnection(db.Model):
+    """Connection table: 
+    Creating the specific, unique connection between one bereaved person and one deceased person"""
+
+    __tablename__ = "grief_connection"
+    
+    id = db.Column(db.Integer, nullable=False, primary_key=True)
+    bereaved_id = db.Column(db.Interger, db.ForeignKey("bereaved_persons.id"), nullable=False)
+    deceased_id = db.Column(db.Interger, db.ForeignKey("deceased_persons.id"), nullable=False)
+
+    deceased_persons = db.relationship("Deceased", backref="bereaved")
+
+
 class UserGriefSequence(db.Model):
     """Data Model to assess where a bereaved person 
     is in the cycle of this particuar grief with this particular loss"""
     __tablename__ = "grief_sequence"
 
     id = db.Column(db.Integer, nullable=False, primary_key=True)
-    bereaved_id = db.Column(db.Interger, db.ForeignKey("bereaved_persons.id"), nullable=False)
-    deceased_id = db.Column(db.Interger, db.ForeignKey("deceased_persons.id"), nullable=False)
+    grief_connection_id = db.Column(db.Interger, db.ForeignKey("grief_connection.id"), nullable=False)
     prompt_series_id = db.Column(db.Interger, db.ForeignKey("prompt_series.id"), nullable=False)
-    start_date = db.Column(db.TimeStamp, nullable=False) #is this syntax correct???
+    start_date = db.Column(db.DateTime, nullable=False, default=datetime.now) 
     status = db.Column(db.String(50), db.ForeignKey("UserGriefSequenceStatus.id"), nullable=False)
-    most_recent_day = db.Column(db.Integer, autoincrement=True) #is this syntax correct???
+    most_recent_update = db.Column(db.DateTime, nullable=False)
+    most_recent_day = db.Column(db.Integer, nullable=False) 
 
 #   prompts = db.Relationship("Prompt Series", backref="")
 
@@ -89,7 +105,7 @@ class PromptSeries(db.Model):
 
     id = db.Column(db.Integer, nullable=False, primary_key=True)
     name = db.Column(db.String(50), nullable=False) #Type of Grief (eg. Death, Change, Motherhood, Miscarriage)
-    number_of_days = db.Column(db.Integer, nullable=False) #how do I make the default 60?
+    number_of_days = db.Column(db.Integer, nullable=False, default=60) 
     can_extend = db.Column(db.Boolean, nullable=False)
     can_pause = db.Column(db.Boolean, nullable=False)
 
@@ -100,7 +116,7 @@ class PromptSeries(db.Model):
 
         greeting = f"This particular journal is deals with grief associated with {self.name}."
 
-        return greeting
+        return greeting 
 
 
 class Prompts(db.Model):
@@ -124,14 +140,13 @@ class Prompts(db.Model):
         return greeting
 
 
-class UserPromptEntry(db.Model):
-    """The Journal Responses
-    Meant to be particular not just to each bereaved person, but also to this particular instance of their grief"""
+class JournalEntry(db.Model):
+    """The Journal Responses:
+    Pairs unique bereaved-deceased grief connection with chosen prompt series and particular prompt for journal entry"""
     __tablename__ = "journal_entries"
 
     id = db.Column(db.Integer, nullable=False, primary_key=True)
-    bereaved_id = db.Column(db.Interger, db.ForeignKey("bereaved_persons.id"), nullable=False)
-    deceased_id = db.Column(db.Interger, db.ForeignKey("deceased_persons.id"), nullable=False)
+    grief_connection_id = db.Column(db.Interger, db.ForeignKey("grief_connection.id"), nullable=False)
     prompt_series_id = db.Column(db.Interger, db.ForeignKey("prompt_series.id"), nullable=False)
     prompt_id = db.Column(db.Interger, db.ForeignKey("prompt.id"), nullable=False)
     prompt_day = db.Column(db.Interger, db.ForeignKey("prompt.day_number"), nullable=False)

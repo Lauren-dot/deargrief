@@ -1,22 +1,8 @@
 """CRUD (Create, Retrieve, Update, Delete) Data Functions"""
 
-# def create_movie(title, overview, release_date, poster_path):
-#     """Create and return a new movie."""
+from model import Bereaved, Deceased, GriefConnection, GriefSequence, JournalEntry, SequenceStatus
 
-#     movie = Movie(
-#         title=title,
-#         overview=overview,
-#         release_date=release_date,
-#         poster_path=poster_path,
-#     )
-
-#     db.session.add(movie)
-#     db.session.commit()
-
-#     return movie
-
-from model import Bereaved, Deceased, GriefConnection, JournalEntry
-
+"""Create"""
 
 def create_bereaved(id, firstname, lastname, email, password, date_first_registered):
     """Create and return a bereaved person (user)"""
@@ -65,6 +51,40 @@ def create_grief_connection(id, bereaved_id, deceased_id):
     db.session.commit()
 
     return grief_connection
+
+def create_grief_sequence(id, grief_connection_id, prompt_series_id, start_date, status, most_recent_update, most_recent_day):
+    """Create: where a bereaved person is in a particular grief process"""
+
+    grief_sequence = GriefSequence(
+        id=id, 
+        grief_connection_id=grief_connection_id, 
+        prompt_series_id=prompt_series_id, 
+        start_date=start_date, 
+        status=status, 
+        most_recent_update=most_recent_update, 
+        most_recent_day=most_recent_day,
+    )
+
+    db.session.add(grief_sequence)
+    db.session.commit()
+
+    return grief_sequence
+
+
+def create_grief_sequence_status(id, status, status_description):
+    """Create: status of a particular grief connection 
+    (For example: Active, Abandonded, Paused, Completed)"""
+
+    sequence_status = SequenceStatus(
+        id=id,
+        status=status,
+        status_description=status_description,
+    )
+
+    db.session.add(sequence_status)
+    db.session.commit()
+
+    return sequence_status
 
 
 def create_journal_entries(id, grief_connection_id, prompt_series_id, prompt_id, prompt_day, entry):

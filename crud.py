@@ -1,6 +1,6 @@
 """CRUD (Create, Retrieve, Update, Delete) Data Functions"""
 
-from model import Bereaved, Deceased, GriefConnection, GriefSequence, JournalEntry, SequenceStatus
+from model import Bereaved, Deceased, GriefConnection, GriefSequence, JournalEntry, PromptSeries, SequenceStatus
 
 """Create"""
 
@@ -72,7 +72,7 @@ def create_grief_sequence(id, grief_connection_id, prompt_series_id, start_date,
 
 
 def create_grief_sequence_status(id, status, status_description):
-    """Create: status of a particular grief connection 
+    """Create and return status of a particular grief connection 
     (For example: Active, Abandonded, Paused, Completed)"""
 
     sequence_status = SequenceStatus(
@@ -85,6 +85,25 @@ def create_grief_sequence_status(id, status, status_description):
     db.session.commit()
 
     return sequence_status
+
+def create_prompt_series(id, name, number_of_days, can_extend, can_pause):
+    """Create and return different prompt series"""
+
+    prompt_series = PromptSeries(
+        id=id, 
+        name=name, 
+        number_of_days=number_of_days, 
+        can_extend=can_extend, 
+        can_pause=can_pause,
+    )
+
+    db.session.add(prompt_series)
+    db.session.commit()
+
+    return prompt_series
+
+
+#def create_prompts()
 
 
 def create_journal_entries(id, grief_connection_id, prompt_series_id, prompt_id, prompt_day, entry):

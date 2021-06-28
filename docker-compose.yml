@@ -1,0 +1,36 @@
+version: '3.6'
+
+services:
+  app:
+    build: 
+      context: .
+      dockerfile: Dockerfile #I like to know where it comes from, that's why.
+    depends_on:
+      - db
+    environment:
+      STAGE: test
+      SQLALCHEMY_DATABASE_URI: postgresql+psycopg2://lauren:laurenspassword@db/grief
+      SQLALCHEMY_ECHO: 0
+      SQLALCHEMY_TRACK_MODIFICATIONS: 0
+    command: python app.py run -h 0.0.0.0
+    networks:
+      - default
+    ports:
+      - 5000:5000
+    volumes:
+      - .:/usr/src/app
+    restart: always
+
+  db:
+    environment:
+      POSTGRES_USER: lauren
+      POSTGRES_PASSWORD: laurenspassword
+      POSTGRES_DB: grief
+    image: postgres:latest
+    networks:
+      - default
+    ports:
+      - 5405:5432
+    restart: always
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data

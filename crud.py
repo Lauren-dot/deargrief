@@ -21,13 +21,14 @@ def create_bereaved(id, firstname, lastname, email, password, date_first_registe
 
     return bereaved
 
-def create_deceased(id, firstname, lastname, bereaved_id):
+def create_deceased(id, firstname, lastname, relationship, bereaved_id):
     """Create and return a deceased person"""
 
     deceased = Deceased(
         id=id,
         firstname=firstname,
         lastname=lastname,
+        relationship=relationship
         bereaved_id=bereaved_id,
     )
 
@@ -139,16 +140,22 @@ def create_journal_entries(id, grief_connection_id, prompt_series_id, prompt_id,
 
     return journal_entry
 
-# TO DO:
-# def create_promptseries():
 
-# TO DO:
-# def create_grief_connection():
+"""Retrieve"""
+def get_bereaved_by_email(email):
+    """Return a bereaved user by their email."""
+     
+    return Bereaved.query.get(Bereaved.email == email)
+
+def get_deceased_by_user():
+    pass
+
+def get_journal_entry_by_day():
+    pass
 
 
-
-
+#Fix This
 """Connecting this to the rest of the app"""
-if __name__ == '__main__':
-    from server import app
+if __name__ == '__main__': # If I am executing this file directly with python (python crud.py)
+    from app import app
     connect_to_db(app)

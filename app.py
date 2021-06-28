@@ -1,11 +1,21 @@
 #Import the "Flask" class from the flask library
 from flask import Flask, request, render_template, url_for, flash, redirect
-from login import RegistrationForm, LogInForm
+from flask_bcrypt import Bcrypt
+from flask_login import LoginManager, login_user
+from login import RegistrationForm, LogInForm, 
+from model import db, connect_to_db, Bereaved
+
 #Create the variable "app"; 
 #Create an instance of the Flask class; 
 #__name__ is a special variable in Python that represents the name of the module (it's so flask knows what to look for in static files, etc)
 app = Flask(__name__) 
 app.config["SECRET_KEY"] = "MAKE_SECRET_LATER"
+
+bcrypt = Bcrypt(app)
+login_manager = LoginManager(app)
+
+connect_to_db(app)
+db.create_all()
 
 #Tells the browser what to do when the client requests the "/" (root) page; And! Two routes can be handled by the same function
 @app.route("/")
@@ -31,20 +41,33 @@ def process():
 def register():
     form = RegistrationForm() #Instance of the Registration Form (check login.py for class)
     if form.validate_on_submit():
+        hashed_password = bcrypt.generate_password_hash(form.password.data).decode("utf-8") #.decode turns this into a string (instead of dealing with bytes)
+        bereaved = Bereaved(firstname=form.firstname.data, lastname=form.lastname.data, email=form.email.data, password=hashed_password)
+        db.session.add(bereaved)
+        db.session.commit()
         # Created the user in the database
-        flash(f"Account created for {form.username.data}.", "success") #creates temp window with message; bootstrap class of message: success
-        return redirect(url_for("home"))
+        flash(f"Welcome {form.username.data}! Your account has been created.", "success") #creates temp window with message; bootstrap class of message: success
+        return redirect(url_for("login"))
     return render_template("register.html", title="Register", form=form)
 
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
     form = LogInForm() #Instance of the Log In Form (check login.py for class)
-    #To DO
-    #Process the form and log the user in
-    #Redirect the User to their particular site/page
-
+    if form.validate_on_submit():
+        bereaved = Bereaved.query.filter_by(email=form.email.data).first()
+        if bereaved and bcrypt.check_password_hash(bereaved.password, form.password.data):
+            login_user(bereaved, remember=form.remember.data)
+            return redirect(url_for("my_account"))
+        else:
+            flash("Oh no! That did not work. Please check your email and password.")
     return render_template("login.html", title="Log In", form=form)
+
+
+@app.route("/my_account/<bereaved>")
+def welcome_to_main_account():
+
+    return render_template("my_account.html", title="Hello, {bereaved}", methods=["GET", "POST"])
 
 #@app.route("/day/<calendar_counter>")
     #To Do

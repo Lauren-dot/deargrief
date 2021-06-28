@@ -1,7 +1,14 @@
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+from sqlalchemy.dialects.postgresql import TIMESTAMP
+from app import login_manager
+from login import UserMixin
 
 db = SQLAlchemy()
+
+@login_manager.bereaved_loader
+def load_bereaved(bereaved_id):
+    return Bereaved.query.get(int(bereaved_id))
 
 class Bereaved(db.Model):
     """Data Model for a bereaved user"""
@@ -10,11 +17,11 @@ class Bereaved(db.Model):
     id = db.Column(db.Integer, nullable=False, primary_key=True)
     firstname = db.Column(db.String(50), nullable=False)
     lastname = db.Column(db.String(50), nullable=False)
-    email = db.Column(db.String(100), nullable=False)
+    email = db.Column(db.String(100), unique=True, nullable=False)
     password = db.Column(db.String(100), nullable=False)
-    date_first_registered = db.Column(db.TimeStamp) #is this the correct syntax??????????
+    date_first_registered = db.Column(TIMESTAMP) 
 
-    deceased_persons = db.relationship("Deceased", backref="bereaved") #is this correct syntax???
+    deceased_persons = db.relationship("Deceased", backref="bereaved") 
 
     def __repr__(self):
         """Show information about bereaved user"""
@@ -30,9 +37,9 @@ class Deceased(db.Model):
     id = db.Column(db.Integer, nullable=False, primary_key=True)
     firstname = db.Column(db.String(50), nullable=False)
     lastname = db.Column(db.String(50), nullable=False)
-    bereaved_id = db.Column(db.Interger, db.ForeignKey("bereaved_persons.id"), nullable=False)
+    bereaved_id = db.Column(db.Integer, db.ForeignKey("bereaved_persons.id"), nullable=False)
 
-    # See bereaved persons table for the "backref" here.
+    # See bereaved persons table for the relationship "backref" here.
 
     def __repr__(self):
         """Show information about bereaved user"""
@@ -48,8 +55,8 @@ class GriefConnection(db.Model):
     __tablename__ = "grief_connection"
     
     id = db.Column(db.Integer, nullable=False, primary_key=True)
-    bereaved_id = db.Column(db.Interger, db.ForeignKey("bereaved_persons.id"), nullable=False)
-    deceased_id = db.Column(db.Interger, db.ForeignKey("deceased_persons.id"), nullable=False)
+    bereaved_id = db.Column(db.Integer, db.ForeignKey("bereaved_persons.id"), nullable=False)
+    deceased_id = db.Column(db.Integer, db.ForeignKey("deceased_persons.id"), nullable=False)
 
     deceased_persons = db.relationship("Deceased", backref="bereaved")
 
@@ -60,8 +67,8 @@ class GriefSequence(db.Model):
     __tablename__ = "grief_sequence"
 
     id = db.Column(db.Integer, nullable=False, primary_key=True)
-    grief_connection_id = db.Column(db.Interger, db.ForeignKey("grief_connection.id"), nullable=False)
-    prompt_series_id = db.Column(db.Interger, db.ForeignKey("prompt_series.id"), nullable=False)
+    grief_connection_id = db.Column(db.Integer, db.ForeignKey("grief_connection.id"), nullable=False)
+    prompt_series_id = db.Column(db.Integer, db.ForeignKey("prompt_series.id"), nullable=False)
     start_date = db.Column(db.DateTime, nullable=False, default=datetime.now) 
     status = db.Column(db.String(50), db.ForeignKey("UserGriefSequenceStatus.id"), nullable=False)
     most_recent_update = db.Column(db.DateTime, nullable=False)
@@ -124,7 +131,7 @@ class Prompts(db.Model):
     __tablename__ = "prompts"
 
     id = db.Column(db.Integer, nullable=False, primary_key=True)
-    prompt_series_id = db.Column(db.Interger, db.ForeignKey("prompt_series.id"), nullable=False)
+    prompt_series_id = db.Column(db.Integer, db.ForeignKey("prompt_series.id"), nullable=False)
     day_number = db.Column(db.Integer, nullable=False)
     momentary_monitoring = db.Column(db.Integer, nullable=False)
     framing_quote = db.Column(db.Text, nullable=True)
@@ -146,10 +153,10 @@ class JournalEntry(db.Model):
     __tablename__ = "journal_entries"
 
     id = db.Column(db.Integer, nullable=False, primary_key=True)
-    grief_connection_id = db.Column(db.Interger, db.ForeignKey("grief_connection.id"), nullable=False)
-    prompt_series_id = db.Column(db.Interger, db.ForeignKey("prompt_series.id"), nullable=False)
-    prompt_id = db.Column(db.Interger, db.ForeignKey("prompt.id"), nullable=False)
-    prompt_day = db.Column(db.Interger, db.ForeignKey("prompt.day_number"), nullable=False)
+    grief_connection_id = db.Column(db.Integer, db.ForeignKey("grief_connection.id"), nullable=False)
+    prompt_series_id = db.Column(db.Integer, db.ForeignKey("prompt_series.id"), nullable=False)
+    prompt_id = db.Column(db.Integer, db.ForeignKey("prompt.id"), nullable=False)
+    prompt_day = db.Column(db.Integer, db.ForeignKey("prompt.day_number"), nullable=False)
     entry = db.Column(db.Text, nullable=False)
 
     #Consult on "backref", etc for all of this
@@ -166,12 +173,8 @@ class JournalEntry(db.Model):
 #Adapted from model.py in sqlalchemy assessment
 def connect_to_db(app):
     """Connect the database to our Flask app."""
-
-    app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql:///deceased_persons" #syntax check here too!!!
-    app.config["SQLALCHEMY_ECHO"] = False
-    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     db.app = app
-    db.init_app(app)
+    db.init_app(app) #enables the db to read the hidden environment variables
     print("Connected to db!")
 
 

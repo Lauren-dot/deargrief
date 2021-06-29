@@ -47,7 +47,7 @@ def register():
         return redirect(url_for("my_account/<bereaved>"))
     form = RegistrationForm() #Instance of the Registration Form (check login.py for class)
     if form.validate_on_submit():
-        create_bereaved
+        # once re-packaged the code, use function create_bereaved here in place of the following four lines
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode("utf-8") #.decode turns this into a string (instead of dealing with bytes)
         bereaved = Bereaved(firstname=form.firstname.data, lastname=form.lastname.data, email=form.email.data, password=hashed_password)
         db.session.add(bereaved)

@@ -1,18 +1,25 @@
 """CRUD (Create, Retrieve, Update, Delete) Data Functions"""
 
 from model import Bereaved, Deceased, GriefConnection, GriefSequence, JournalEntry, PromptSeries, Prompts, SequenceStatus
+from flask_bcrypt import Bcrypt
+from login import RegistrationForm, LogInForm, NewJournalForm
+
+bcrypt = Bcrypt(app)
 
 """Create"""
 
 def create_bereaved(id, firstname, lastname, email, password, date_first_registered):
     """Create and return a bereaved person (user)"""
 
+#Uncomment this once you have restructured your code into packages - it's throwing errors because there is too much cross-section working
+#     hashed_password = bcrypt.generate_password_hash(form.password.data).decode("utf-8") #.decode turns this into a string (instead of dealing with bytes)
+    
     bereaved = Bereaved(
         id=id,
         firstname=firstname,
         lastname=lastname,
         email=email,
-        password=password,
+        password=hashed_password,
         date_first_registered=date_first_registered,
     )
 

@@ -2,7 +2,7 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from sqlalchemy.dialects.postgresql import TIMESTAMP
 from app import login_manager
-from login import UserMixin
+from flask_login import UserMixin
 
 db = SQLAlchemy()
 

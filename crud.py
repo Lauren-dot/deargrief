@@ -28,7 +28,7 @@ def create_deceased(id, firstname, lastname, relationship, bereaved_id):
         id=id,
         firstname=firstname,
         lastname=lastname,
-        relationship=relationship
+        relationship=relationship,
         bereaved_id=bereaved_id,
     )
 

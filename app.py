@@ -1,9 +1,11 @@
 #Import the "Flask" class from the flask library
+from crud import create_deceased
 from flask import Flask, request, render_template, url_for, flash, redirect
 from flask_bcrypt import Bcrypt
-from flask_login import LoginManager, login_user
-from login import RegistrationForm, LogInForm, 
+from flask_login import LoginManager, login_user, current_user, logout_user, login_required
+from login import RegistrationForm, LogInForm, NewJournalForm
 from model import db, connect_to_db, Bereaved
+from crud import create_deceased, create_bereaved
 
 #Create the variable "app"; 
 #Create an instance of the Flask class; 
@@ -13,6 +15,8 @@ app.config["SECRET_KEY"] = "MAKE_SECRET_LATER"
 
 bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
+login_manager.login_view = "login"
+login_manager.login_message_category = "info" #assigns these type of flashed message to the Bootstrap "Info" category (Makes a cleaner message!)
 
 connect_to_db(app)
 db.create_all()
@@ -39,8 +43,11 @@ def process():
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
+    if current_user.is_authenticated:
+        return redirect(url_for("my_account/<bereaved>"))
     form = RegistrationForm() #Instance of the Registration Form (check login.py for class)
     if form.validate_on_submit():
+        create_bereaved
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode("utf-8") #.decode turns this into a string (instead of dealing with bytes)
         bereaved = Bereaved(firstname=form.firstname.data, lastname=form.lastname.data, email=form.email.data, password=hashed_password)
         db.session.add(bereaved)
@@ -58,16 +65,29 @@ def login():
         bereaved = Bereaved.query.filter_by(email=form.email.data).first()
         if bereaved and bcrypt.check_password_hash(bereaved.password, form.password.data):
             login_user(bereaved, remember=form.remember.data)
-            return redirect(url_for("my_account"))
+            next_page = request.args.get("next")
+            return redirect(next_page) if next_page else redirect(url_for("my_account")) #turnary conditional statement!
         else:
             flash("Oh no! That did not work. Please check your email and password.")
     return render_template("login.html", title="Log In", form=form)
 
 
-@app.route("/my_account/<bereaved>")
+@app.route("/my_account")
+@login_required
 def welcome_to_main_account():
 
-    return render_template("my_account.html", title="Hello, {bereaved}", methods=["GET", "POST"])
+    return render_template("my_account.html", title="Hello, {{ bereaved }}", methods=["GET", "POST"])
+
+
+@app.route("/new_journal_registration")
+@login_required
+def register_new_journal():
+    form = NewJournalForm()
+    if form.validate_on_submit():
+        create_deceased()
+
+    return render_template("new_journal_registration.html", title="New Journal Registration", methods=["GET", "POST"])
+
 
 #@app.route("/day/<calendar_counter>")
     #To Do
@@ -79,6 +99,13 @@ def welcome_to_main_account():
     #return render_template("daily_journal_entry.html", prompts=prompts) 
     #when database "prompts" and html are ready, take out the first ) to access the database 
     #and be able to pass it to the html file
+
+
+@app.route("/logout")
+def logout():
+    logout_user()
+    return redirect(url_for("home"))
+
 
 #To run flask directly
 if __name__ == '__main__':

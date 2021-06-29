@@ -1,10 +1,12 @@
 {% extends layout.html %}
 {% block content %}
-    <h1>Please open up your grief journals or register for a new one. </h1>
+<div class="content-section">
+    <h1>Hello, {{ current_user.firstname }}. Please open up your grief journals or register for a new one. </h1>
     {% for journal in journals %}
         <h2><a href="daily_journal_entry.html">Your journal about your {{ journal.deceased.relationship }}, {{ journal.deceased.firstname }}</a></h2> <!-- Out of the dictionary prompt, calls value of daily_prompt -->
         <!-- To Do: double check that daily_journal_entry.html form creates the correct form for the correct account-->
     {% endfor %}
     <h2>To open up a new journal, <a href="new_journal_registration.html">click here.</a></h2>
+</div>
 
 {% endblock content %}

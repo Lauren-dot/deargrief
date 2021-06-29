@@ -7,8 +7,13 @@ import re
 
 class RegistrationForm(FlaskForm): #uses FlaskForm (imported above) to create a new class that we will use here
     #this next line will create and lable in the html a text field and then set up requirements for that field (eg: DataRequired tests if the field has any entry into it)
-    username = StringField(
-                    "Username", 
+    firstname = StringField(
+                    "First Name", 
+                    validators=[
+                        DataRequired(), 
+                        Length(min=2, max=50)])
+    lastname = StringField(
+                    "Last Name", 
                     validators=[
                         DataRequired(), 
                         Length(min=2, max=50)])
@@ -48,3 +53,23 @@ class LogInForm(FlaskForm):
             DataRequired()])
     remember = BooleanField("Remember Me")
     submit = SubmitField("Log In")
+
+
+class NewJournalForm(FlaskForm): #uses FlaskForm (imported above) to create a new class that we will use here
+    #this next line will create and lable in the html a text field and then set up requirements for that field (eg: DataRequired tests if the field has any entry into it)
+    firstname = StringField(
+                    "First Name of Deceased", 
+                    validators=[
+                        DataRequired(), 
+                        Length(min=2, max=50)])
+    lastname = StringField(
+                    "Last Name of Deceased", 
+                    validators=[
+                        DataRequired(), 
+                        Length(min=2, max=50)])
+    relationship = StringField(
+                    "Your relationship with the Deceased", 
+                    validators=[
+                        DataRequired(), 
+                        Length(min=2, max=100)])
+    submit = SubmitField("Create")

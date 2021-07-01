@@ -11,7 +11,7 @@
                         {% if form.deceasedfirstname.errors %} <!-- if the form has an error in the username entry, create an error alert -->
                             {{ form.deceasedfirstname(class="form-control form-control-lg is-invalid") }}
                             <div class="invalid-form-feedback">
-                                {% for error in form.deceasedname.errors %}
+                                {% for error in form.deceasedfirstname.errors %}
                                     <span>{{ error }}</span>
                                 {% endfor %}
                             </div>

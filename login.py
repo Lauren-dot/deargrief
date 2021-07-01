@@ -1,6 +1,8 @@
-# This is one option for the login form
+# Python Instruction for Form Creation
 from flask_wtf import FlaskForm #the library from flask that streamlines dealing with forms
-from wtforms import StringField, PasswordField, SubmitField, BooleanField #the kinds of fields we are using
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField
+from wtforms.fields.core import RadioField 
+from wtforms.fields.simple import TextAreaField #the kinds of fields we are using
 from wtforms.validators import DataRequired, Length, Email, Regexp, EqualTo, ValidationError #These are all classes from the wtforms library; they make checking the form easier
 from model import Bereaved
 import re
@@ -73,3 +75,19 @@ class NewJournalForm(FlaskForm): #uses FlaskForm (imported above) to create a ne
                         DataRequired(), 
                         Length(min=2, max=100)])
     submit = SubmitField("Create")
+
+
+class NewEntryForm(FlaskForm): #uses FlaskForm (imported above) to create a new class that we will use here
+    #this next line will create and lable in the html a text field and then set up requirements for that field (eg: DataRequired tests if the field has any entry into it)
+    momentary_monitoring = RadioField(
+                    "Momentary Monitoring: How are you feeling today?", 
+                    choices=[
+                        ('0','Not Functioning In My Daily Life'),
+                        ('5','Sometimes Functioning, Sometimes Not'), 
+                        ('10', 'Well Adjusted'),
+                        ])
+    entry = TextAreaField(
+                    "Dear Grief,", 
+                    validators=[DataRequired()])
+
+    submit = SubmitField("Save")

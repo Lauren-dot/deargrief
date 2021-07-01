@@ -1,4 +1,5 @@
 #Import the "Flask" class from the flask library
+import secrets
 from crud import create_deceased
 from flask import Flask, request, render_template, url_for, flash, redirect
 from flask_bcrypt import Bcrypt
@@ -11,7 +12,8 @@ from crud import create_deceased, create_bereaved
 #Create an instance of the Flask class; 
 #__name__ is a special variable in Python that represents the name of the module (it's so flask knows what to look for in static files, etc)
 app = Flask(__name__) 
-app.config["SECRET_KEY"] = "MAKE_SECRET_LATER"
+secret_key = secrets.token_hex(16)
+app.config["SECRET_KEY"] = secret_key
 
 bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
@@ -53,7 +55,7 @@ def register():
         db.session.add(bereaved)
         db.session.commit()
         # Created the user in the database
-        flash(f"Welcome {form.username.data}! Your account has been created.", "success") #creates temp window with message; bootstrap class of message: success
+        flash(f"Welcome {form.firstname.data}! Your account has been created.", "success") #creates temp window with message; bootstrap class of message: success
         return redirect(url_for("login"))
     return render_template("register.html", title="Register", form=form)
 
@@ -85,6 +87,8 @@ def register_new_journal():
     form = NewJournalForm()
     if form.validate_on_submit():
         create_deceased()
+        flash("Your new grief process has been started. Thank you for taking the next step on your path.", "success")
+        return render_template(url_for("my_account"))
 
     return render_template("new_journal_registration.html", title="New Journal Registration", methods=["GET", "POST"])
 

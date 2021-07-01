@@ -4,9 +4,9 @@ from crud import create_deceased
 from flask import Flask, request, render_template, url_for, flash, redirect
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, login_user, current_user, logout_user, login_required
-from login import RegistrationForm, LogInForm, NewJournalForm
+from login import RegistrationForm, LogInForm, NewJournalForm, NewEntryForm
 from model import db, connect_to_db, Bereaved
-from crud import create_deceased, create_bereaved
+from crud import create_deceased, create_bereaved, create_journal_entry
 
 #Create the variable "app"; 
 #Create an instance of the Flask class; 
@@ -77,6 +77,7 @@ def login():
 @app.route("/my_account")
 @login_required
 def welcome_to_main_account():
+    entry = Entry.query.all()
 
     return render_template("my_account.html", title="Hello, {{ bereaved }}", methods=["GET", "POST"])
 
@@ -93,7 +94,16 @@ def register_new_journal():
     return render_template("new_journal_registration.html", title="New Journal Registration", methods=["GET", "POST"])
 
 
-#@app.route("/day/<calendar_counter>")
+@app.route("/daily_journal_entry", methods=["GET", "POST"])
+@login_required
+def new_entry():
+    form = NewEntryForm()
+    if form.validate_on_submit():
+        entry = create_journal_entry
+        flash("Thank you for making another step on your journey through the grief process.", "success")
+        return redirect(url_for("my_account"))
+    return render_template("daily_journal_entry.html")
+
     #To Do
     #Match number of days to database containing the day-by-day prompts
 

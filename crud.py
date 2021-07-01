@@ -2,7 +2,6 @@
 
 from model import Bereaved, Deceased, GriefConnection, GriefSequence, JournalEntry, PromptSeries, Prompts, SequenceStatus
 from flask_bcrypt import Bcrypt
-from login import RegistrationForm, LogInForm, NewJournalForm
 
 bcrypt = Bcrypt(app)
 
@@ -130,7 +129,7 @@ def create_prompts(id, prompt_series_id, day_number, momentary_monitoring, frami
 
 
 
-def create_journal_entries(id, grief_connection_id, prompt_series_id, prompt_id, prompt_day, entry):
+def create_journal_entry(id, grief_connection_id, prompt_series_id, prompt_id, prompt_day, entry):
     """Create and return a user/bereaved's journal entry about a specific deceased person"""
 
     journal_entry = JournalEntry(

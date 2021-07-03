@@ -1,12 +1,13 @@
 #Import the "Flask" class from the flask library
 import secrets
+import random 
 from crud import create_deceased
 from flask import Flask, request, render_template, url_for, flash, redirect
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, login_user, current_user, logout_user, login_required
 from login import RegistrationForm, LogInForm, NewJournalForm, NewEntryForm
-from model import db, connect_to_db, Bereaved
-from crud import create_deceased, create_bereaved, create_journal_entry
+from model import db, connect_to_db, Bereaved, JournalEntry
+#from crud import create_deceased, create_bereaved, create_journal_entry
 
 #Create the variable "app"; 
 #Create an instance of the Flask class; 
@@ -48,15 +49,26 @@ def register():
     if current_user.is_authenticated:
         return redirect(url_for("my_account/<bereaved>"))
     form = RegistrationForm() #Instance of the Registration Form (check login.py for class)
+
+    #Note: I migragted and integrated the guts of my "create_bereaved" function here; it was not connecting consistently when I called it from crud.py
     if form.validate_on_submit():
-        # once re-packaged the code, use function create_bereaved here in place of the following four lines
-        hashed_password = bcrypt.generate_password_hash(form.password.data).decode("utf-8") #.decode turns this into a string (instead of dealing with bytes)
-        bereaved = Bereaved(firstname=form.firstname.data, lastname=form.lastname.data, email=form.email.data, password=hashed_password)
+        id = random.uniform(0.1, 10000.1)
+        hashed_password = Bcrypt.generate_password_hash(form.password.data).decode("utf-8") #.decode turns this into a string (instead of dealing with bytes)
+
+        bereaved = Bereaved(
+                        id=id,
+                        firstname=form.firstname.data,
+                        lastname=form.lastname.data,
+                        email=form.email.data,
+                        password=hashed_password,
+                        )
+
         db.session.add(bereaved)
         db.session.commit()
         # Created the user in the database
         flash(f"Welcome {form.firstname.data}! Your account has been created.", "success") #creates temp window with message; bootstrap class of message: success
         return redirect(url_for("login"))
+        
     return render_template("register.html", title="Register", form=form)
 
 
@@ -77,7 +89,7 @@ def login():
 @app.route("/my_account")
 @login_required
 def welcome_to_main_account():
-    entry = Entry.query.all()
+    entry = JournalEntry.query.all()
 
     return render_template("my_account.html", title="Hello, {{ bereaved }}", methods=["GET", "POST"])
 
@@ -99,7 +111,7 @@ def register_new_journal():
 def new_entry():
     form = NewEntryForm()
     if form.validate_on_submit():
-        entry = create_journal_entry
+  #      entry = create_journal_entry
         flash("Thank you for making another step on your journey through the grief process.", "success")
         return redirect(url_for("my_account"))
     return render_template("daily_journal_entry.html")

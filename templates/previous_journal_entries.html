@@ -1,0 +1,27 @@
+{% extends layout.html %}
+{% block content %}
+    <div class="journal-metadata">
+        <h2>
+            This process honors the connection between you and your {{ deceased.relationship.data }}, {{ deceased.firstname.data }}.<br>
+            {% if grief_squence.status.data = "completed" %}
+                You completed our process. If your grief feels stuck again, there is help.
+            {% else %}
+                The status for this grief process is {{ grief_squence.status.data }}.<br>
+                You are at day {{ grief_squence.most_recent_day.data }} of your process.<br>
+                Continue on your process by clicking <a href="daily_journal_entry.html">here.</a>
+                Or look through the evolution of your grief so far.
+            {% endif%}
+        </h2>
+    </div>>
+    {% for journal_entry in journal_entries %}
+        <article class="media content-section">
+            <div class="media-body">
+                <div class="entry-metadata">
+                    <a class="entry-title" href="#">On day {{ journal_entry.prompt_day }} of this grief journey, you wrote</a>
+                    <p class="entry-content">{{ journal_entry.entry }}</p>
+                </div>
+            </div>
+        </article>
+
+    {% endfor %}
+{% endblock content %}

@@ -2,8 +2,9 @@ click==7.1.2
 Flask==1.1.2
 Flask-SQLAlchemy==2.5.1
 Flask-WTF
-flask-bcrypt
-flask-login
+Flask-Bcrypt
+Flask-Login
+WTForms
 greenlet==1.1.0
 itsdangerous==1.1.0
 Jinja2==2.11.3

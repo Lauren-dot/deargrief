@@ -1,9 +1,6 @@
 """CRUD (Create, Retrieve, Update, Delete) Data Functions"""
 
-from model import db, connect_to_db, Bereaved, Deceased, GriefConnection, GriefSequence, JournalEntry, PromptSeries, Prompts, SequenceStatus
-#from flask_bcrypt import Bcrypt
-
-#bcrypt = Bcrypt(app)
+from model import db, connect_to_db, Bereaved, Deceased, GriefConnection, GriefSequence, JournalEntry, Prompts
 
 """Create"""
 

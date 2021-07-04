@@ -56,7 +56,6 @@ class GriefConnection(db.Model):
     id = db.Column(db.Integer, nullable=False, primary_key=True)
     bereaved_id = db.Column(db.Integer, db.ForeignKey("bereaved_persons.id"), nullable=False)
     deceased_id = db.Column(db.Integer, db.ForeignKey("deceased_persons.id"), nullable=False)
-
     deceased_persons = db.relationship("Deceased", backref="grief_connection")
     bereaved_person = db.relationship("Bereaved", backref="grief_connection")
 
@@ -76,11 +75,10 @@ class GriefSequence(db.Model):
     id = db.Column(db.Integer, nullable=False, primary_key=True)
     grief_connection_id = db.Column(db.Integer, db.ForeignKey("grief_connection.id"), nullable=False)
     start_date = db.Column(db.DateTime, nullable=False, default=datetime.now) 
-    status = db.Column(db.Boolean, nullable=False, defaut=True)
     most_recent_update = db.Column(db.DateTime, nullable=False)
     most_recent_day = db.Column(db.Integer, nullable=False) 
 
-    grief_connection = db.Relationship("GriefConnection", backref="grief_sequence")
+    grief_connection = db.relationship("GriefConnection", backref="grief_sequence")
 
     def __repr__(self):
         """Show which day of the grief sequence a bereaved person is"""
@@ -96,7 +94,7 @@ class Prompts(db.Model):
 
     id = db.Column(db.Integer, nullable=False, primary_key=True)
     day_number = db.Column(db.Integer, nullable=False)
-    momentary_monitoring = db.Column(db.Integer, nullable=False)
+    momentary_monitoring = db.Column(db.String, nullable=False)
     framing_quote = db.Column(db.Text, nullable=True)
     prompt = db.Column(db.Text, nullable=False)
 
@@ -116,8 +114,7 @@ class JournalEntry(db.Model):
 
     id = db.Column(db.Integer, nullable=False, primary_key=True)
     grief_connection_id = db.Column(db.Integer, db.ForeignKey("grief_connection.id"), nullable=False)
-    prompt_id = db.Column(db.Integer, db.ForeignKey("prompt.id"), nullable=False)
-    prompt_day = db.Column(db.Integer, db.ForeignKey("prompt.day_number"), nullable=False)
+    prompt_day = db.Column(db.Integer, nullable=False)
     entry = db.Column(db.Text, nullable=False)
 
     #Consult on "backref", etc for all of this

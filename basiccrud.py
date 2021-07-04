@@ -1,10 +1,10 @@
 """CRUD (Create, Retrieve, Update, Delete) Data Functions"""
 
-from model import db, connect_to_db, Bereaved, Deceased, GriefConnection, GriefSequence, JournalEntry, Prompts
+from basicmodel import db, connect_to_db, Bereaved, Deceased, GriefConnection, GriefSequence, JournalEntry, Prompts
 
 """Create"""
 
-def create_bereaved(id, firstname, lastname, email, password, date_first_registered):
+def create_bereaved(id, firstname, lastname, email, password):
     """Create and return a bereaved person (user)"""
  
     bereaved = Bereaved(
@@ -72,37 +72,6 @@ def create_grief_sequence(id, grief_connection_id, prompt_series_id, start_date,
     return grief_sequence
 
 
-def create_grief_sequence_status(id, status, status_description):
-    """Create and return status of a particular grief connection 
-    (For example: Active, Abandonded, Paused, Completed)"""
-
-    sequence_status = SequenceStatus(
-        id=id,
-        status=status,
-        status_description=status_description,
-    )
-
-    db.session.add(sequence_status)
-    db.session.commit()
-
-    return sequence_status
-
-def create_prompt_series(id, name, number_of_days, can_extend, can_pause):
-    """Create and return different prompt series"""
-
-    prompt_series = PromptSeries(
-        id=id, 
-        name=name, 
-        number_of_days=number_of_days, 
-        can_extend=can_extend, 
-        can_pause=can_pause,
-    )
-
-    db.session.add(prompt_series)
-    db.session.commit()
-
-    return prompt_series
-
 
 def create_prompts(id, prompt_series_id, day_number, momentary_monitoring, framing_quote, prompt):
     """Create and return prompts"""
@@ -122,14 +91,12 @@ def create_prompts(id, prompt_series_id, day_number, momentary_monitoring, frami
     return prompt
 
 
-def create_journal_entry(id, grief_connection_id, prompt_series_id, prompt_id, prompt_day, entry):
+def create_journal_entry(id, grief_connection_id, prompt_day, entry):
     """Create and return a user/bereaved's journal entry about a specific deceased person"""
 
     journal_entry = JournalEntry(
         id=id,
-        grief_connection=grief_connection_id, 
-        prompt_series_id=prompt_series_id, 
-        prompt_id=prompt_id, 
+        grief_connection=grief_connection_id,  
         prompt_day=prompt_day, 
         entry=entry,
     )

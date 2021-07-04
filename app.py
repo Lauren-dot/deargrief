@@ -1,12 +1,13 @@
 #Import the "Flask" class from the flask library
 import secrets
 import random 
-from crud import create_deceased
+import os
+from basiccrud import create_deceased
 from flask import Flask, request, render_template, url_for, flash, redirect
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, login_user, current_user, logout_user, login_required
 from login import RegistrationForm, LogInForm, NewJournalForm, NewEntryForm
-from model import db, connect_to_db, Bereaved, JournalEntry
+from basicmodel import db, connect_to_db, Bereaved, JournalEntry
 #from crud import create_deceased, create_bereaved, create_journal_entry
 
 #Create the variable "app"; 
@@ -15,6 +16,7 @@ from model import db, connect_to_db, Bereaved, JournalEntry
 app = Flask(__name__) 
 secret_key = secrets.token_hex(16)
 app.config["SECRET_KEY"] = secret_key
+app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("SQLALCHEMY_DATABASE_URI")
 
 bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
@@ -68,7 +70,7 @@ def register():
         # Created the user in the database
         flash(f"Welcome {form.firstname.data}! Your account has been created.", "success") #creates temp window with message; bootstrap class of message: success
         return redirect(url_for("login"))
-        
+
     return render_template("register.html", title="Register", form=form)
 
 

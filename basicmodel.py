@@ -95,7 +95,6 @@ class Prompts(db.Model):
     id = db.Column(db.Integer, nullable=False, primary_key=True)
     day_number = db.Column(db.Integer, nullable=False)
     momentary_monitoring = db.Column(db.String, nullable=False)
-    framing_quote = db.Column(db.Text, nullable=True)
     prompt = db.Column(db.Text, nullable=False)
 
 

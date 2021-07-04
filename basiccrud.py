@@ -78,10 +78,8 @@ def create_prompts(id, prompt_series_id, day_number, momentary_monitoring, frami
 
     prompt = Prompts(
         id=id, 
-        prompt_series_id=prompt_series_id, 
         day_number=day_number, 
         momentary_monitoring=momentary_monitoring, 
-        framing_quote=framing_quote, 
         prompt=prompt,
     )
 

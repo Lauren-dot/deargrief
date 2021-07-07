@@ -1,6 +1,7 @@
 from flask import request, render_template, url_for, flash, redirect
-from forms import RegistrationForm, LogInForm, NewJournalForm, NewEntryForm
-from basicmodel import Bereaved, 
+from deargrief import app
+from deargrief.forms import RegistrationForm, LogInForm, NewJournalForm, NewEntryForm
+from deargrief.basicmodel import Bereaved, JournalEntry
 
 #Tells the browser what to do when the client requests the "/" (root) page; And! Two routes can be handled by the same function
 @app.route("/")

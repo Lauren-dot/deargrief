@@ -1,5 +1,6 @@
 from flask import request, render_template, url_for, flash, redirect
-from deargrief import app
+import random
+from deargrief import app, db, Bcrypt
 from deargrief.forms import RegistrationForm, LogInForm, NewJournalForm, NewEntryForm
 from deargrief.basicmodel import Bereaved, JournalEntry
 
@@ -26,16 +27,17 @@ def process():
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if current_user.is_authenticated:
-        return redirect(url_for("my_account/<bereaved>"))
+        flash("An account already exists for this email; please log in.")
+        return redirect(url_for("login"))
+
     form = RegistrationForm() #Instance of the Registration Form (check login.py for class)
 
     #Note: I migragted and integrated the guts of my "create_bereaved" function here; it was not connecting consistently when I called it from crud.py
     if form.validate_on_submit():
-        id = random.uniform(0.1, 10000.1)
         hashed_password = Bcrypt.generate_password_hash(form.password.data).decode("utf-8") #.decode turns this into a string (instead of dealing with bytes)
 
         bereaved = Bereaved(
-                        id=id,
+                        id=random.uniform(0.1, 10000.1),
                         firstname=form.firstname.data,
                         lastname=form.lastname.data,
                         email=form.email.data,
@@ -45,7 +47,8 @@ def register():
         db.session.add(bereaved)
         db.session.commit()
         # Created the user in the database
-        flash(f"Welcome {form.firstname.data}! Your account has been created.", "success") #creates temp window with message; bootstrap class of message: success
+
+        flash(f"Welcome {form.firstname.data}! Your account has been created. Please log in!", "success") #creates temp window with message; bootstrap class of message: success
         return redirect(url_for("login"))
 
     return render_template("register.html", title="Register", form=form)

@@ -1,13 +1,15 @@
+from deargrief.routes import login
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
-#from sqlalchemy.dialects.postgresql import TIMESTAMP
-#from app import login_manager
+#from sqlalchemy.dialects.postgresql import TIMESTAMP <-- Not for MVP
+from deargrief import db, login_manager
 from flask_login import UserMixin
 
-db = SQLAlchemy()
+@login_manager.user_loader
+def load_bereaved(bereaved_id):
+    return Bereaved.query.get(float(bereaved_id))
 
-
-class Bereaved(db.Model):
+class Bereaved(db.Model, UserMixin):
     """Data Model for a bereaved user"""
     __tablename__ = "bereaved_persons"
 

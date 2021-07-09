@@ -43,6 +43,7 @@ class RegistrationForm(FlaskForm): #uses FlaskForm (imported above) to create a 
         if bereaved_email:
             raise ValidationError("An account already exists with this email. Please log in or try another email to register.")
 
+
 class LogInForm(FlaskForm):
     email = StringField(
         "Email", 

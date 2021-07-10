@@ -10,7 +10,7 @@ from flask_login import LoginManager, login_user, current_user, logout_user, log
 app = Flask(__name__) 
 secret_key = secrets.token_hex(16)
 app.config["SECRET_KEY"] = secret_key
-#app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("SQLALCHEMY_DATABASE_URI")
+app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("SQLALCHEMY_DATABASE_URI")
 
 
 bcrypt = Bcrypt(app)
@@ -85,6 +85,9 @@ def login():
             flash("Oh no! That did not work. Please check your email and password.")
     return render_template("login.html", title="Log In", form=form)
 
+@login_manager.user_loader
+def load_user(user_id):
+    return Bereaved.get(user_id)
 
 @app.route("/my_account")
 @login_required

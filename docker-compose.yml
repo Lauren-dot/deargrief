@@ -12,13 +12,13 @@ services:
       SQLALCHEMY_DATABASE_URI: postgresql+psycopg2://lauren:laurenspassword@db/grief
       SQLALCHEMY_ECHO: 0
       SQLALCHEMY_TRACK_MODIFICATIONS: 0
-    command: python app.py run -h 0.0.0.0
+    command: python3 server.py run -h 0.0.0.0
     networks:
       - default
     ports:
       - 5000:5000
     volumes:
-      - .:/usr/src/app
+      - /usr/Dear_Grief
     restart: always
 
   db:

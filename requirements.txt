@@ -1,0 +1,12 @@
+Flask
+Flask-SQLAlchemy
+Flask-WTF
+Flask-Bcrypt
+Flask-Login
+WTForms
+greenlet
+itsdangerous
+MarkupSafe
+Werkzeug
+psycopg2-binary
+wtforms[email]

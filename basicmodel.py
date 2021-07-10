@@ -1,9 +1,11 @@
-from deargrief.routes import login
+
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 #from sqlalchemy.dialects.postgresql import TIMESTAMP <-- Not for MVP
-from deargrief import db, login_manager
+from server import app, login_manager
 from flask_login import UserMixin
+
+db = SQLAlchemy(app)
 
 @login_manager.user_loader
 def load_bereaved(bereaved_id):
@@ -132,6 +134,7 @@ class JournalEntry(db.Model):
 #Adapted from model.py in sqlalchemy assessment
 def connect_to_db(app):
     """Connect the database to our Flask app."""
+    app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql:///DearGriefDatabase"
     db.app = app
     db.init_app(app) #enables the db to read the hidden environment variables
     print("Connected to db!")

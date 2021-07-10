@@ -1,8 +1,10 @@
 from flask import request, render_template, url_for, flash, redirect
 import random
 from deargrief import app, db, Bcrypt
-from deargrief.forms import RegistrationForm, LogInForm, NewJournalForm, NewEntryForm
-from deargrief.basicmodel import Bereaved, JournalEntry
+from deargrief.forms import RegistrationForm, LogInForm #, NewJournalForm, NewEntryForm
+from deargrief.basicmodel import Bereaved #, JournalEntry
+from flask_login import login_user
+
 
 #Tells the browser what to do when the client requests the "/" (root) page; And! Two routes can be handled by the same function
 @app.route("/")
@@ -59,54 +61,53 @@ def login():
     form = LogInForm() #Instance of the Log In Form (check login.py for class)
     if form.validate_on_submit():
         bereaved = Bereaved.query.filter_by(email=form.email.data).first()
-        if bereaved and bcrypt.check_password_hash(bereaved.password, form.password.data):
+        if bereaved and Bcrypt.check_password_hash(bereaved.password, form.password.data):
             login_user(bereaved, remember=form.remember.data)
-            next_page = request.args.get("next")
-            return redirect(next_page) if next_page else redirect(url_for("my_account")) #turnary conditional statement!
+            return redirect(url_for("my_account"))
         else:
             flash("Oh no! That did not work. Please check your email and password.")
     return render_template("login.html", title="Log In", form=form)
 
 
-@app.route("/my_account")
-@login_required
-def welcome_to_main_account():
-    entry = JournalEntry.query.all()
+# @app.route("/my_account")
+# @login_required
+# def welcome_to_main_account():
+#     entry = JournalEntry.query.all()
 
-    return render_template("my_account.html", title="Hello, {{ bereaved }}", methods=["GET", "POST"])
-
-
-@app.route("/new_journal_registration")
-@login_required
-def register_new_journal():
-    form = NewJournalForm()
-    if form.validate_on_submit():
-        create_deceased()
-        flash("Your new grief process has been started. Thank you for taking the next step on your path.", "success")
-        return render_template(url_for("my_account"))
-
-    return render_template("new_journal_registration.html", title="New Journal Registration", methods=["GET", "POST"])
+#     return render_template("my_account.html", title="Hello, {{ bereaved }}", methods=["GET", "POST"])
 
 
-@app.route("/daily_journal_entry", methods=["GET", "POST"])
-@login_required
-def new_entry():
-    form = NewEntryForm()
-    if form.validate_on_submit():
-  #      entry = create_journal_entry
-        flash("Thank you for making another step on your journey through the grief process.", "success")
-        return redirect(url_for("my_account"))
-    return render_template("daily_journal_entry.html")
+# @app.route("/new_journal_registration")
+# @login_required
+# def register_new_journal():
+#     form = NewJournalForm()
+#     if form.validate_on_submit():
+#         create_deceased()
+#         flash("Your new grief process has been started. Thank you for taking the next step on your path.", "success")
+#         return render_template(url_for("my_account"))
 
-    #To Do
-    #Match number of days to database containing the day-by-day prompts
+#     return render_template("new_journal_registration.html", title="New Journal Registration", methods=["GET", "POST"])
 
-    #Calendar counter corresponds to the index of days of journaling
-    #Each calendar counter starts with a unique deceased and bereaved combination
 
-    #return render_template("daily_journal_entry.html", prompts=prompts) 
-    #when database "prompts" and html are ready, take out the first ) to access the database 
-    #and be able to pass it to the html file
+# @app.route("/daily_journal_entry", methods=["GET", "POST"])
+# @login_required
+# def new_entry():
+#     form = NewEntryForm()
+#     if form.validate_on_submit():
+#   #      entry = create_journal_entry
+#         flash("Thank you for making another step on your journey through the grief process.", "success")
+#         return redirect(url_for("my_account"))
+#     return render_template("daily_journal_entry.html")
+
+#     #To Do
+#     #Match number of days to database containing the day-by-day prompts
+
+#     #Calendar counter corresponds to the index of days of journaling
+#     #Each calendar counter starts with a unique deceased and bereaved combination
+
+#     #return render_template("daily_journal_entry.html", prompts=prompts) 
+#     #when database "prompts" and html are ready, take out the first ) to access the database 
+#     #and be able to pass it to the html file
 
 
 @app.route("/logout")

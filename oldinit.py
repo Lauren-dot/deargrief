@@ -14,18 +14,19 @@ from deargrief.basicmodel import db, connect_to_db
 #Create the variable "app"; 
 #Create an instance of the Flask class; 
 #__name__ is a special variable in Python that represents the name of the module (it's so flask knows what to look for in static files, etc)
-app = Flask(__name__) 
-secret_key = secrets.token_hex(16)
-app.config["SECRET_KEY"] = secret_key
-app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("SQLALCHEMY_DATABASE_URI")
-db = SQLAlchemy(app)
+# app = Flask(__name__) 
+# secret_key = secrets.token_hex(16)
+# app.config["SECRET_KEY"] = secret_key
+# app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("SQLALCHEMY_DATABASE_URI")
+# db = SQLAlchemy(app)
 
-bcrypt = Bcrypt(app)
-login_manager = LoginManager(app)
-login_manager.login_view = "login"
-login_manager.login_message_category = "info" #assigns these type of flashed message to the Bootstrap "Info" category (Makes a cleaner message!)
+# bcrypt = Bcrypt(app)
 
-from deargrief import routes
+# login_manager = LoginManager(app)
+# login_manager.login_view = "login"
+# login_manager.login_message_category = "info" #assigns these type of flashed message to the Bootstrap "Info" category (Makes a cleaner message!)
 
-connect_to_db(app)
-db.create_all()
+# from deargrief import routes
+
+# connect_to_db(app)
+# db.create_all()

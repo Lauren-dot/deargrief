@@ -83,8 +83,15 @@ class NewEntryForm(FlaskForm): #uses FlaskForm (imported above) to create a new 
     momentary_monitoring = RadioField(
                     "Momentary Monitoring: How are you feeling today?", 
                     choices=[
-                        ('0','Not Functioning In My Daily Life'),
-                        ('5','Sometimes Functioning, Sometimes Not'), 
+                        ('1', 'Not Functioning In My Daily Life'),
+                        ('2', 'Getting out of bed is hard but do-able'),
+                        ('3', 'I am able to take care of my own body, but not much else'),
+                        ('4', 'Rarely fully functional'),
+                        ('5', 'Sometimes Functioning, Sometimes Not'), 
+                        ('6', 'Fully functional more than half the time'),
+                        ('7', 'Fully functional more than three/fourths of the time'),
+                        ('8', 'Functional'),
+                        ('9', 'Mostly functioning well'),
                         ('10', 'Well Adjusted'),
                         ])
     entry = TextAreaField(

@@ -2,14 +2,10 @@
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 #from sqlalchemy.dialects.postgresql import TIMESTAMP <-- Not for MVP
-from server import app, login_manager
+#from server import app, login_manager
 from flask_login import UserMixin
 
 db = SQLAlchemy(app)
-
-@login_manager.user_loader
-def load_bereaved(bereaved_id):
-    return Bereaved.query.get(float(bereaved_id))
 
 class Bereaved(db.Model, UserMixin):
     """Data Model for a bereaved user"""
@@ -139,9 +135,3 @@ def connect_to_db(app):
     db.init_app(app) #enables the db to read the hidden environment variables
     print("Connected to db!")
 
-
-if __name__ == "__main__":
-    from flask import Flask
-
-    app = Flask(__name__)
-    connect_to_db(app)

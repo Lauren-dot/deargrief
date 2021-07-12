@@ -2,6 +2,8 @@ import secrets
 import random
 import os
 from flask import Flask, request, render_template, url_for, flash, redirect
+from forms import LogInForm, RegistrationForm, NewEntryForm
+#from basicmodel import
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, login_user, current_user, logout_user, login_required
@@ -70,6 +72,11 @@ def register():
     return render_template("register.html", title="Register", form=form)
 
 
+@login_manager.user_loader
+def load_bereaved(bereaved_id):
+    return Bereaved.query.get(float(bereaved_id))
+
+
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if current_user.is_authenticated:
@@ -85,14 +92,10 @@ def login():
             flash("Oh no! That did not work. Please check your email and password.")
     return render_template("login.html", title="Log In", form=form)
 
-@login_manager.user_loader
-def load_user(user_id):
-    return Bereaved.get(user_id)
 
 @app.route("/my_account")
 @login_required
 def welcome_to_main_account():
-    entry = JournalEntry.query.all()
 
     return render_template("my_account.html", title="Hello, {{ bereaved }}", methods=["GET", "POST"])
 
@@ -108,6 +111,15 @@ def welcome_to_main_account():
 
 #     return render_template("new_journal_registration.html", title="New Journal Registration", methods=["GET", "POST"])
 
+
+@app.route("/post/new", methods=["GET", "POST"])
+@login_required
+def new_entry():
+    form = NewEntryForm()
+    if form.validate_on_submit():
+        flash("Your entry has been recorded. Thank you for taking one more step on your grief journey.", "succes")
+        return redirect(url_for("my_account"))
+    return render_template("daily_journal_entry.html", form=form)
 
 # @app.route("/daily_journal_entry", methods=["GET", "POST"])
 # @login_required

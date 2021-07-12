@@ -2,7 +2,7 @@
 {% block content %}
     <h1>Today, please write about: </h1>
     {% for prompt in prompts %} <!-- Think through: How do I really want to access this and where? -->
-        <h2>{{ prompt.daily_prompt }}</h2> <!-- Out of the dictionary prompt, calls value of daily_prompt -->
+        <h2>{{ prompt.day_number }}</h2> <!-- Out of the dictionary prompt, calls value of daily_prompt -->
         <form>
             <div class="content-section">
                 <form method="POST" action="">
@@ -10,20 +10,35 @@
                     <fieldset class="form-group">
                         <legend class="border-bottom mb-4">Dear Grief
                             <div class="form-group">
-                                {{ form.momentarymonitoring.label(class="form-control-label") }} <!-- .label will print out the username from our form field. Plus some bootstrap to make it look better-->
+                                {{ form.momentary_monitoring.label(class="form-control-label") }} <!-- .label will print out the username from our form field. Plus some bootstrap to make it look better-->
                                 
-                                {% if form.momentarymonitoring.errors %} <!-- if the form has an error in the username entry, create an error alert -->
-                                    {{ form.momentarymonitoring(class="form-control form-control-lg is-invalid") }}
+                                {% if form.momentary_monitoring.errors %} <!-- if the form has an error in the username entry, create an error alert -->
+                                    {{ form.momentary_monitoring(class="form-control form-control-lg is-invalid") }}
                                     <div class="invalid-form-feedback">
-                                        {% for error in form.momentarymonitoring.errors %}
+                                        {% for error in form.momentary_monitoring.errors %}
                                             <span>{{ error }}</span>
                                         {% endfor %}
                                     </div>
                                 {% else %} <!-- if the form does not have errors, proceed as normal -->
-                                    {{ form.momentarymonitoring(class="form-control form-control-lg") }} 
+                                    {{ form.momentary_monitoring(class="form-control form-control-lg") }} 
                                 {% endif %}
                             </div>
-
+                            <div class="form-group">
+                                {{ form.entry.label(class="form-control-label") }} <!-- .label will print out the username from our form field. Plus some bootstrap to make it look better-->
+                              <!-- {{ insert label that reflects the appropriate prompt here. }} -->  
+                              <h2>{{ prompt.prompt }}</h2>
+                              <input type="text" class="form-control" id="entry" placeholder="Dear Grief,">
+                                {% if form.entry.errors %} <!-- if the form has an error in the username entry, create an error alert -->
+                                    {{ form.entry(class="form-control form-control-lg is-invalid") }}
+                                    <div class="invalid-form-feedback">
+                                        {% for error in form.entry.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% else %} <!-- if the form does not have errors, proceed as normal -->
+                                    {{ form.entry(class="form-control form-control-lg") }} 
+                                {% endif %}
+                            </div>
                             <div class="form-group">
                                 {{ form.entry.label(class="form-control-label") }} <!-- .label will print out the username from our form field. Plus some bootstrap to make it look better-->
                               <!-- {{ insert label that reflects the appropriate prompt here. }} -->  

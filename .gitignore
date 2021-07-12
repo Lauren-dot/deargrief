@@ -1,6 +1,6 @@
 __pycache__
-venv
 env
+env.old
 .DS_Store
 .vscode
 postgres-data

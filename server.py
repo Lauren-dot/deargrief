@@ -2,8 +2,6 @@ import secrets
 import random
 import os
 from flask import Flask, request, render_template, url_for, flash, redirect
-from forms import LogInForm, RegistrationForm, NewEntryForm
-#from basicmodel import
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, login_user, current_user, logout_user, login_required

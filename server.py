@@ -5,7 +5,8 @@ from flask import Flask, request, render_template, url_for, flash, redirect
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, login_user, current_user, logout_user, login_required
-
+#from forms import RegistrationForm, LogInForm
+#from basicmodel import Bereaved, Deceased
 
 app = Flask(__name__) 
 secret_key = secrets.token_hex(16)
@@ -50,14 +51,16 @@ def register():
 
     #Note: I migragted and integrated the guts of my "create_bereaved" function here; it was not connecting consistently when I called it from crud.py
     if form.validate_on_submit():
-        hashed_password = Bcrypt.generate_password_hash(form.password.data).decode("utf-8") #.decode turns this into a string (instead of dealing with bytes)
+        password = form.password.data
+        #hashed_password = Bcrypt.generate_password_hash(form.password.data).decode("utf-8") #.decode turns this into a string (instead of dealing with bytes)
+        #bcrypt.check_password_hash(hashed_password, form.password.data)
 
         bereaved = Bereaved(
                         id=random.uniform(0.1, 10000.1),
                         firstname=form.firstname.data,
                         lastname=form.lastname.data,
                         email=form.email.data,
-                        password=hashed_password,
+                        password=password, # use =hashed_password after debugging
                         )
 
         db.session.add(bereaved)
@@ -67,7 +70,7 @@ def register():
         flash("Welcome! Your account has been created. Please log in!", "success") 
         return redirect(url_for("login"))
 
-    return render_template("register.html", title="Register", form=form)
+    return render_template("new_user_register.html", title="Register", form=form)
 
 
 @login_manager.user_loader
@@ -78,14 +81,14 @@ def load_bereaved(bereaved_id):
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for("my_account"))
-    form = LogInForm() #Instance of the Log In Form (check login.py for class)
+        return redirect("/my_account")
+    form = LogInForm() #Instance of the Log In Form (check forms.py for class)
     if form.validate_on_submit():
         bereaved = Bereaved.query.filter_by(email=form.email.data).first()
-        if bereaved and Bcrypt.check_password_hash(bereaved.password, form.password.data):
+        password = Bereaved.query.filter_by(password=form.password.data).first()
+        if bereaved and password: # use Bcrypt.check_password_hash(bereaved.password, form.password.data): after debugging password hashing
             login_user(bereaved, remember=form.remember.data)
-            next_page = request.args.get("next")
-            return redirect(next_page) if next_page else redirect(url_for("home"))
+            return redirect("/my_account")
         else:
             flash("Oh no! That did not work. Please check your email and password.")
     return render_template("login.html", title="Log In", form=form)
@@ -98,16 +101,26 @@ def welcome_to_main_account():
     return render_template("my_account.html", title="Hello, {{ bereaved }}", methods=["GET", "POST"])
 
 
-# @app.route("/new_journal_registration")
-# @login_required
-# def register_new_journal():
-#     form = NewJournalForm()
-#     if form.validate_on_submit():
-#         create_deceased()
-#         flash("Your new grief process has been started. Thank you for taking the next step on your path.", "success")
-#         return render_template(url_for("my_account"))
+@app.route("/new_journal_registration", methods=["GET", "POST"])
+@login_required
+def register_new_journal():
+    form = NewJournalForm()
+    if form.validate_on_submit():
+        deceased = Deceased(
+                        id=random.uniform(0.1, 10000.1),
+                        firstname=form.firstname.data,
+                        lastname=form.lastname.data,
+                        relationship=form.relationship.data,
+                        bereaved_id=db.session.bereaved.id,
+                        )
 
-#     return render_template("new_journal_registration.html", title="New Journal Registration", methods=["GET", "POST"])
+        db.session.add(deceased)
+        db.session.commit()
+
+        flash("Your new grief process has been started. Thank you for taking the next step on your path.", "success")
+        return render_template(url_for("my_account"))
+
+    return render_template("new_journal_registration.html", title="New Journal Registration", methods=["GET", "POST"])
 
 
 @app.route("/post/new", methods=["GET", "POST"])
@@ -119,15 +132,25 @@ def new_entry():
         return redirect(url_for("my_account"))
     return render_template("daily_journal_entry.html", form=form)
 
-# @app.route("/daily_journal_entry", methods=["GET", "POST"])
-# @login_required
-# def new_entry():
-#     form = NewEntryForm()
-#     if form.validate_on_submit():
-#   #      entry = create_journal_entry
-#         flash("Thank you for making another step on your journey through the grief process.", "success")
-#         return redirect(url_for("my_account"))
-#     return render_template("daily_journal_entry.html")
+#Stopping Point: This Route (July 14)
+@app.route("/daily_journal_entry", methods=["GET", "POST"])
+@login_required
+def new_entry():
+    form = NewEntryForm()
+    if form.validate_on_submit():
+        entry = JournalEntry(
+                id=random.uniform(0.1, 10000.1)
+                grief_connection_id=db.session.grief_connection.id #is this the correct syntax for this? Code Check
+                momentary_monitoring=form.momentary_monitoring.data
+                entry=form.entry.data
+        )
+        
+        db.session.add(entry)
+        db.session.commit()
+    
+        flash("Thank you for making another step on your journey through the grief process.", "success")
+        return redirect("/my_account")
+    return render_template("daily_journal_entry.html", form=form)
 
 #     #To Do
 #     #Match number of days to database containing the day-by-day prompts
@@ -143,12 +166,12 @@ def new_entry():
 @app.route("/logout")
 def logout():
     logout_user()
-    return redirect(url_for("home"))
+    return redirect("/home")
 
 #To run flask directly
 if __name__ == '__main__':
-    from basicmodel import Bereaved, connect_to_db, db
-    from forms import RegistrationForm, LogInForm #, NewJournalForm, NewEntryForm
+    from basicmodel import Bereaved, Deceased, JournalEntry, connect_to_db, db
+    from forms import RegistrationForm, LogInForm, NewJournalForm, NewEntryForm
     connect_to_db(app)
     db.create_all()
     #call "run" on our app

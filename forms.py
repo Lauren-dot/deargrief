@@ -4,7 +4,7 @@ from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextA
 from wtforms.fields.core import RadioField 
 from wtforms.fields.simple import TextAreaField #the kinds of fields we are using
 from wtforms.validators import DataRequired, Length, Email, Regexp, EqualTo, ValidationError #These are all classes from the wtforms library; they make checking the form easier
-from basicmodel import Bereaved
+from basicmodel import Bereaved, Deceased
 import re
 
 class RegistrationForm(FlaskForm): #uses FlaskForm (imported above) to create a new class that we will use here

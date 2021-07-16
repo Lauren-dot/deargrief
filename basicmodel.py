@@ -1,6 +1,7 @@
 
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+
 #from sqlalchemy.dialects.postgresql import TIMESTAMP <-- Not for MVP
 from server import app
 from flask_login import UserMixin
@@ -23,7 +24,7 @@ class Bereaved(db.Model, UserMixin):
     def __repr__(self):
         """Show information about bereaved user"""
 
-        greeting = f"<<{self.firstname} {self.lastname}is in mourning."
+        greeting = f"<<{self.firstname} {self.lastname} is in mourning."
 
         return greeting
 
@@ -36,6 +37,7 @@ class Deceased(db.Model):
     firstname = db.Column(db.String(50), nullable=False)
     lastname = db.Column(db.String(50), nullable=False)
     bereaved_id = db.Column(db.Integer, db.ForeignKey("bereaved_persons.id"), nullable=False)
+    griefrelationship = db.Column(db.String(50), nullable=False)
 
     # See bereaved persons table for the relationship "backref" here.
     # See grief connection table for connection table "backref"

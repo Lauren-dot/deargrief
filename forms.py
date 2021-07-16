@@ -70,7 +70,7 @@ class NewJournalForm(FlaskForm): #uses FlaskForm (imported above) to create a ne
                     validators=[
                         DataRequired(), 
                         Length(min=2, max=50)])
-    relationship = StringField(
+    griefrelationship = StringField(
                     "Your relationship with the Deceased", 
                     validators=[
                         DataRequired(), 

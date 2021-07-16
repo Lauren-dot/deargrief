@@ -105,19 +105,31 @@ def welcome_to_main_account():
 @login_required
 def register_new_journal():
     form = NewJournalForm()
+    print("************")
+    print()
+    print()
     print(current_user)
+    print(current_user.id)
+    print()
+    print()
+    print("************")
     if form.validate_on_submit():
         deceased = Deceased(
                         id=randint(0, 1000000000),
                         firstname=form.firstname.data,
                         lastname=form.lastname.data,
-                        relationship=form.relationship.data,
-                        bereaved_id=current_user.id
+                        bereaved_id=current_user.id,
+                        griefrelationship=form.griefrelationship.data,
                         )
-
+        print("************")
+        print()
+        print()
+        print(deceased)
+        print()
+        print()
+        print("************")
         db.session.add(deceased)
         db.session.commit()
-        
 
         flash("Your new grief process has been started. Thank you for taking the next step on your path.", "success")
         return render_template("my_account.html")

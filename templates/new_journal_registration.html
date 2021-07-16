@@ -34,17 +34,17 @@
                         {% endif %}
                     </div>
                     <div class="form-group">
-                        {{ form.relationship.label(class="form-control-label") }} <!-- .label will print out the username from our form field. Plus some bootstrap to make it look better-->
+                        {{ form.griefrelationship.label(class="form-control-label") }} <!-- .label will print out the username from our form field. Plus some bootstrap to make it look better-->
                         
-                        {% if form.relationship.errors %} <!-- if the form has an error in the username entry, create an error alert -->
-                            {{ form.relationship(class="form-control form-control-lg is-invalid") }}
+                        {% if form.griefrelationship.errors %} <!-- if the form has an error in the username entry, create an error alert -->
+                            {{ form.griefrelationship(class="form-control form-control-lg is-invalid") }}
                             <div class="invalid-form-feedback">
                                 {% for error in form.relationship.errors %}
                                     <span>{{ error }}</span>
                                 {% endfor %}
                             </div>
                         {% else %} <!-- if the form does not have errors, proceed as normal -->
-                            {{ form.relationship(class="form-control form-control-lg") }} 
+                            {{ form.griefrelationship(class="form-control form-control-lg") }} 
                         {% endif %}
                     </div>
                     

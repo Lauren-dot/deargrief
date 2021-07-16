@@ -1,5 +1,5 @@
 import secrets
-import random
+from random import randint
 import os
 from flask import Flask, request, render_template, url_for, flash, redirect
 from flask_sqlalchemy import SQLAlchemy
@@ -56,7 +56,7 @@ def register():
         #bcrypt.check_password_hash(hashed_password, form.password.data)
 
         bereaved = Bereaved(
-                        id=random.uniform(0.1, 10000.1),
+                        id=randint(0, 1000000000),
                         firstname=form.firstname.data,
                         lastname=form.lastname.data,
                         email=form.email.data,
@@ -75,7 +75,7 @@ def register():
 
 @login_manager.user_loader
 def load_bereaved(bereaved_id):
-    return Bereaved.query.get(float(bereaved_id))
+    return Bereaved.query.get(int(bereaved_id))
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -98,29 +98,31 @@ def login():
 @login_required
 def welcome_to_main_account():
 
-    return render_template("my_account.html", title="Hello, {{ bereaved }}", methods=["GET", "POST"])
+    return render_template("my_account.html")
 
 
 @app.route("/new_journal_registration", methods=["GET", "POST"])
 @login_required
 def register_new_journal():
     form = NewJournalForm()
+    print(current_user)
     if form.validate_on_submit():
         deceased = Deceased(
-                        id=random.uniform(0.1, 10000.1),
+                        id=randint(0, 1000000000),
                         firstname=form.firstname.data,
                         lastname=form.lastname.data,
                         relationship=form.relationship.data,
-                        bereaved_id=db.session.bereaved.id,
+                        bereaved_id=current_user.id
                         )
 
         db.session.add(deceased)
         db.session.commit()
+        
 
         flash("Your new grief process has been started. Thank you for taking the next step on your path.", "success")
-        return render_template(url_for("my_account"))
+        return render_template("my_account.html")
 
-    return render_template("new_journal_registration.html", title="New Journal Registration", methods=["GET", "POST"])
+    return render_template("new_journal_registration.html", title="New Journal Registration", form=form)
 
 
 @app.route("/post/new", methods=["GET", "POST"])
@@ -132,35 +134,35 @@ def new_entry():
         return redirect(url_for("my_account"))
     return render_template("daily_journal_entry.html", form=form)
 
-#Stopping Point: This Route (July 14)
-@app.route("/daily_journal_entry", methods=["GET", "POST"])
-@login_required
-def new_entry():
-    form = NewEntryForm()
-    if form.validate_on_submit():
-        entry = JournalEntry(
-                id=random.uniform(0.1, 10000.1)
-                grief_connection_id=db.session.grief_connection.id #is this the correct syntax for this? Code Check
-                momentary_monitoring=form.momentary_monitoring.data
-                entry=form.entry.data
-        )
+# #Stopping Point: This Route (July 14)
+# @app.route("/daily_journal_entry", methods=["GET", "POST"])
+# @login_required
+# def new_entry():
+#     form = NewEntryForm()
+#     if form.validate_on_submit():
+#         entry = JournalEntry(
+#                 id=random.uniform(0.1, 10000.1)
+#                 grief_connection_id=db.session.grief_connection.id #is this the correct syntax for this? Code Check
+#                 momentary_monitoring=form.momentary_monitoring.data
+#                 entry=form.entry.data
+#         )
         
-        db.session.add(entry)
-        db.session.commit()
+#         db.session.add(entry)
+#         db.session.commit()
     
-        flash("Thank you for making another step on your journey through the grief process.", "success")
-        return redirect("/my_account")
-    return render_template("daily_journal_entry.html", form=form)
+#         flash("Thank you for making another step on your journey through the grief process.", "success")
+#         return redirect("/my_account")
+#     return render_template("daily_journal_entry.html", form=form)
 
-#     #To Do
-#     #Match number of days to database containing the day-by-day prompts
+# #     #To Do
+# #     #Match number of days to database containing the day-by-day prompts
 
-#     #Calendar counter corresponds to the index of days of journaling
-#     #Each calendar counter starts with a unique deceased and bereaved combination
+# #     #Calendar counter corresponds to the index of days of journaling
+# #     #Each calendar counter starts with a unique deceased and bereaved combination
 
-#     #return render_template("daily_journal_entry.html", prompts=prompts) 
-#     #when database "prompts" and html are ready, take out the first ) to access the database 
-#     #and be able to pass it to the html file
+# #     #return render_template("daily_journal_entry.html", prompts=prompts) 
+# #     #when database "prompts" and html are ready, take out the first ) to access the database 
+# #     #and be able to pass it to the html file
 
 
 @app.route("/logout")

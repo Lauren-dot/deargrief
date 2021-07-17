@@ -1,7 +1,7 @@
 import secrets
 from random import randint
 import os
-from flask import Flask, request, render_template, url_for, flash, redirect
+from flask import Flask, request, render_template, flash, redirect
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, login_user, current_user, logout_user, login_required
@@ -45,7 +45,7 @@ def process():
 def register():
     if current_user.is_authenticated:
         flash("An account already exists for this email; please log in.")
-        return redirect(url_for("login"))
+        return redirect("/login")
 
     form = RegistrationForm() #Instance of the Registration Form (check login.py for class)
 
@@ -68,7 +68,7 @@ def register():
         # Created the user in the database
 
         flash("Welcome! Your account has been created. Please log in!", "success") 
-        return redirect(url_for("login"))
+        return redirect("/login")
 
     return render_template("new_user_register.html", title="Register", form=form)
 
@@ -143,7 +143,7 @@ def new_entry():
     form = NewEntryForm()
     if form.validate_on_submit():
         flash("Your entry has been recorded. Thank you for taking one more step on your grief journey.", "succes")
-        return redirect(url_for("my_account"))
+        return redirect("my_account")
     return render_template("daily_journal_entry.html", form=form)
 
 # #Stopping Point: This Route (July 14)

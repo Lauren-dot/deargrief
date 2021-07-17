@@ -37,7 +37,7 @@ class Deceased(db.Model):
     firstname = db.Column(db.String(50), nullable=False)
     lastname = db.Column(db.String(50), nullable=False)
     bereaved_id = db.Column(db.Integer, db.ForeignKey("bereaved_persons.id"), nullable=False)
-    griefrelationship = db.Column(db.String(50), nullable=False)
+    griefrelationship = db.Column(db.String(100), nullable=False)
 
     # See bereaved persons table for the relationship "backref" here.
     # See grief connection table for connection table "backref"

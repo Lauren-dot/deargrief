@@ -118,7 +118,6 @@ def register_new_journal():
                         id=randint(0, 1000000000),
                         firstname=form.firstname.data,
                         lastname=form.lastname.data,
-                        bereaved_id=current_user.id,
                         griefrelationship=form.griefrelationship.data,
                         )
         print("************")
@@ -130,9 +129,12 @@ def register_new_journal():
         print("************")
         db.session.add(deceased)
         db.session.commit()
+        
+        current_user.deceased_persons.append(deceased)
+        db.session.commit()
 
         flash("Your new grief process has been started. Thank you for taking the next step on your path.", "success")
-        return render_template("my_account.html")
+        return render_template("my_account.html", deceased_persons=current_user.deceased_persons)
 
     return render_template("new_journal_registration.html", title="New Journal Registration", form=form)
 
@@ -142,8 +144,14 @@ def register_new_journal():
 def new_entry():
     form = NewEntryForm()
     if form.validate_on_submit():
+        #To Do: Fix what you pass into the database here by looking at logic from 116-134; 
+        # don't forget to shift relationships in basicmodel.py (see line 22 and 39 for example)
+        # After that: dropdb and createdb again to make sure the backend changes are implimented
+        # See my_account.html to note shifts in the html code as well
+        
+        
         flash("Your entry has been recorded. Thank you for taking one more step on your grief journey.", "succes")
-        return redirect("my_account")
+        return redirect("my_account", entry=current_user.entry)
     return render_template("daily_journal_entry.html", form=form)
 
 # #Stopping Point: This Route (July 14)
@@ -187,6 +195,5 @@ if __name__ == '__main__':
     from basicmodel import Bereaved, Deceased, JournalEntry, connect_to_db, db
     from forms import RegistrationForm, LogInForm, NewJournalForm, NewEntryForm
     connect_to_db(app)
-    db.create_all()
     #call "run" on our app
     app.run(debug=True) #running with the debug on means that it will hotload when you refresh

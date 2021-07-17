@@ -3,10 +3,10 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
 #from sqlalchemy.dialects.postgresql import TIMESTAMP <-- Not for MVP
-from server import app
+
 from flask_login import UserMixin
 
-db = SQLAlchemy(app)
+db = SQLAlchemy()
 
 class Bereaved(db.Model, UserMixin):
     """Data Model for a bereaved user"""
@@ -19,7 +19,7 @@ class Bereaved(db.Model, UserMixin):
     password = db.Column(db.String(100), nullable=False)
     #date_first_registered = db.Column(TIMESTAMP) <-- Not for MVP: Make sure to impliment across the board
 
-    deceased_persons = db.relationship("Deceased", backref="bereaved") 
+    deceased_persons = db.relationship("Deceased", secondary="grief_connection", backref="bereaved_persons") 
 
     def __repr__(self):
         """Show information about bereaved user"""
@@ -36,7 +36,6 @@ class Deceased(db.Model):
     id = db.Column(db.Integer, nullable=False, primary_key=True)
     firstname = db.Column(db.String(50), nullable=False)
     lastname = db.Column(db.String(50), nullable=False)
-    bereaved_id = db.Column(db.Integer, db.ForeignKey("bereaved_persons.id"), nullable=False)
     griefrelationship = db.Column(db.String(100), nullable=False)
 
     # See bereaved persons table for the relationship "backref" here.
@@ -49,6 +48,8 @@ class Deceased(db.Model):
 
         return greeting
 
+
+
 class GriefConnection(db.Model):
     """Connection table: 
     Creating the specific, unique connection between one bereaved person and one deceased person"""
@@ -58,8 +59,8 @@ class GriefConnection(db.Model):
     id = db.Column(db.Integer, nullable=False, primary_key=True)
     bereaved_id = db.Column(db.Integer, db.ForeignKey("bereaved_persons.id"), nullable=False)
     deceased_id = db.Column(db.Integer, db.ForeignKey("deceased_persons.id"), nullable=False)
-    deceased_persons = db.relationship("Deceased", backref="grief_connection")
-    bereaved_person = db.relationship("Bereaved", backref="grief_connection")
+    # deceased_persons = db.relationship("Deceased", backref="grief_connection")
+    # bereaved_person = db.relationship("Bereaved", backref="grief_connection")
 
     def __repr__(self):
         """Show connection between the bereaved and deceased"""
@@ -138,4 +139,11 @@ def connect_to_db(app):
     db.app = app
     db.init_app(app) #enables the db to read the hidden environment variables
     print("Connected to db!")
+
+if __name__ == '__main__':
+    from server import app
+    connect_to_db(app)
+    db.create_all()
+    #call "run" on our app
+    # app.run(debug=True)
 

@@ -148,10 +148,17 @@ def new_entry():
         # don't forget to shift relationships in basicmodel.py (see line 22 and 39 for example)
         # After that: dropdb and createdb again to make sure the backend changes are implimented
         # See my_account.html to note shifts in the html code as well
-        
+        entry = JournalEntry(
+                        id=randint(0, 1000000000),
+                        momentary_monitoring=form.momentary_monitoring.data,
+                        entry=form.entry.data,
+                        )
+
+        current_user.journal_entries.append(entry)
+        db.session.commit()
         
         flash("Your entry has been recorded. Thank you for taking one more step on your grief journey.", "succes")
-        return redirect("my_account", entry=current_user.entry)
+        return redirect("my_account", journal_entries=current_user.journal_entries)
     return render_template("daily_journal_entry.html", form=form)
 
 # #Stopping Point: This Route (July 14)

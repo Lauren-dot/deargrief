@@ -1,4 +1,4 @@
-{% extends layout.html %}
+{% extends "layout.html" %}
 {% block content %}
     <h1>Today, please write about: </h1>
     {% for prompt in prompts %} <!-- Think through: How do I really want to access this and where? -->
@@ -25,7 +25,6 @@
                             </div>
                             <div class="form-group">
                                 {{ form.entry.label(class="form-control-label") }} <!-- .label will print out the username from our form field. Plus some bootstrap to make it look better-->
-                              <!-- {{ insert label that reflects the appropriate prompt here. }} -->  
                               <h2>{{ prompt.prompt }}</h2>
                               <input type="text" class="form-control" id="entry" placeholder="Dear Grief,">
                                 {% if form.entry.errors %} <!-- if the form has an error in the username entry, create an error alert -->
@@ -41,7 +40,6 @@
                             </div>
                             <div class="form-group">
                                 {{ form.entry.label(class="form-control-label") }} <!-- .label will print out the username from our form field. Plus some bootstrap to make it look better-->
-                              <!-- {{ insert label that reflects the appropriate prompt here. }} -->  
                               <input type="text" class="form-control" id="entry" placeholder="Dear Grief,">
                                 {% if form.entry.errors %} <!-- if the form has an error in the username entry, create an error alert -->
                                     {{ form.entry(class="form-control form-control-lg is-invalid") }}
@@ -62,4 +60,5 @@
         </form>
         <h3> {{ prompt.rationale }} </h3> <!-- Out of dictionary prompt, print the rational (why this prompt, why now) to help be transparent about grief guidance -->
     {% endfor %}
+
 {% endblock content %}

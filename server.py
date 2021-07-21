@@ -5,6 +5,7 @@ from flask import Flask, request, render_template, flash, redirect
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, login_user, current_user, logout_user, login_required
+from prompts import prompts
 #from forms import RegistrationForm, LogInForm
 #from basicmodel import Bereaved, Deceased
 
@@ -139,9 +140,12 @@ def register_new_journal():
     return render_template("new_journal_registration.html", title="New Journal Registration", form=form)
 
 
-@app.route("/post/new", methods=["GET", "POST"])
+@app.route("/daily_journal_entry", methods=["GET", "POST"])
 @login_required
 def new_entry():
+    # We need a set of prompts
+    # We need an entry form
+    # We need to commit the entry form
     form = NewEntryForm()
     if form.validate_on_submit():
         #To Do: Fix what you pass into the database here by looking at logic from 116-134; 
@@ -159,7 +163,7 @@ def new_entry():
         
         flash("Your entry has been recorded. Thank you for taking one more step on your grief journey.", "succes")
         return redirect("my_account", journal_entries=current_user.journal_entries)
-    return render_template("daily_journal_entry.html", form=form)
+    return render_template("daily_journal_entry.html", form=form, prompts=prompts)
 
 # #Stopping Point: This Route (July 14)
 # @app.route("/daily_journal_entry", methods=["GET", "POST"])

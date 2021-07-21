@@ -1,4 +1,4 @@
-[
+prompts = [
     {
         "count": 1,
         "day_number": "1 of 60",

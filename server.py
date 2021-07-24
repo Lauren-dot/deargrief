@@ -170,6 +170,7 @@ def new_entry(day_number):
         # After that: dropdb and createdb again to make sure the backend changes are implimented
         # See my_account.html to note shifts in the html code as well
             entry = JournalEntry(
+                        
                         momentary_monitoring=form.momentary_monitoring.data,
                         entry=form.entry.data,
                         )

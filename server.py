@@ -1,7 +1,8 @@
+from basicmodel import JournalEntry
 import secrets
 from random import randint
 import os
-from flask import Flask, request, render_template, flash, redirect
+from flask import Flask, request, render_template, flash, redirect, abort
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, login_user, current_user, logout_user, login_required
@@ -40,6 +41,17 @@ def about():
 def process():
 
     return render_template("process.html", title="Process")
+
+#To do: Connect Grief Calendar to New Entry Forms
+@app.route("/calendar", methods=["GET", "POST"])
+@login_required
+def calendar():
+
+    # def process_click(choice):
+    #     chosenday = 
+    # don't forget to pass chosenday
+
+    return render_template("calendar.html", title="Calendar")
 
 
 @app.route("/register", methods=["GET", "POST"])
@@ -140,26 +152,30 @@ def register_new_journal():
     return render_template("new_journal_registration.html", title="New Journal Registration", form=form)
 
 
-@app.route("/daily_journal_entry", methods=["GET", "POST"])
+@app.route("/daily_journal_entry", methods=["GET", "POST"], defaults={'day_number': None})
+@app.route("/daily_journal_entry/<int:day_number>", methods=["GET", "POST"])
 @login_required
-def new_entry():
-    # We need a set of prompts
-    # We need an entry form
-    # We need to commit the entry form
-    form = NewEntryForm()
-    if form.validate_on_submit():
+def new_entry(day_number):
+
+    if day_number < 1 or day_number > 60:
+        abort(404)
+    if day_number == None:
+        day_number = GriefSequence.query.get(GriefSequence.most_recent_day) + 1 #query most_recent_day from grief_sequence table and add one to that
+    else:
+        day_number = prompts.id
+        form = NewEntryForm()
+        if form.validate_on_submit():
         #To Do: Fix what you pass into the database here by looking at logic from 116-134; 
         # don't forget to shift relationships in basicmodel.py (see line 22 and 39 for example)
         # After that: dropdb and createdb again to make sure the backend changes are implimented
         # See my_account.html to note shifts in the html code as well
-        entry = JournalEntry(
-                        id=randint(0, 1000000000),
+            entry = JournalEntry(
                         momentary_monitoring=form.momentary_monitoring.data,
                         entry=form.entry.data,
                         )
 
-        current_user.journal_entries.append(entry)
-        db.session.commit()
+            current_user.journal_entries.append(entry)
+            db.session.commit()
         
         flash("Your entry has been recorded. Thank you for taking one more step on your grief journey.", "succes")
         return redirect("my_account", journal_entries=current_user.journal_entries)
@@ -203,7 +219,7 @@ def logout():
 
 #To run flask directly
 if __name__ == '__main__':
-    from basicmodel import Bereaved, Deceased, JournalEntry, connect_to_db, db
+    from basicmodel import Bereaved, Deceased, JournalEntry, GriefSequence, connect_to_db, db
     from forms import RegistrationForm, LogInForm, NewJournalForm, NewEntryForm
     connect_to_db(app)
     #call "run" on our app

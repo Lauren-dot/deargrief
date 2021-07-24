@@ -1,0 +1,157 @@
+<!--Code Base Attribution: https://preview.colorlib.com/theme/bootstrap/calendar-07/ -->
+{% extends "layout.html" %}
+{% block content %}
+
+<head>
+    <title>Calendar</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&amp;display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="css/A.style.css.pagespeed.cf.EEM0WE_e5-.css">
+</head>
+<body>
+    <section class="ftco-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6 text-center mb-5">
+                <h2 class="heading-section">Calendar</h2>
+                </div>
+            </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="elegant-calencar d-md-flex">
+                    <div class="wrap-header d-flex align-items-center img" style="background-image:url(images/xbg.jpg.pagespeed.ic.G8OnmOtvHL.webp)">
+                        <p id="reset">Today</p>
+                            <div id="header" class="p-0">
+
+                            <div class="head-info">
+                                <div class="head-month">Your Grief Calendar
+                                </div>
+                                    <div class="head-day">{{ day_number }}
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+        <div class="calendar-wrap">
+           
+        <table id="calendar">
+            <thread>
+                <tr>
+                    <th>First Day of the Week</th>
+                    <th>Second Day of the Week</th>
+                    <th>Third Day of the Week</th>
+                    <th>Fourth Day of the Week</th>
+                    <th>Fifth Day of the Week</th>
+                    <th>Sixth Day of the Week</th>
+                    <th>Seventh Day of the Week</th>
+                </tr>
+            </thread>
+    <tbody>
+        {% for day in range(0,60) %}
+            {% if day % 7 == 0 %}
+            <tr>
+            {% endif %}
+            <td>
+                <a id="day-link-{{ day + 1 }}" class="button" href="/daily_journal_entry/{{ day + 1 }}">{{ day + 1 }}</a>
+            </td>
+            {% if day % 7 == 6 or day == 59 %}
+            </tr>
+            {% endif %}
+        {% endfor %}
+        <tr>
+            <td><a td id="1" class="button" href="/daily_journal_entry">1</a></td>
+            <td><a td id="2" class="button" href="/daily_journal_entry">2</a></td>
+            <td><a td id="3" class="button" href="/daily_journal_entry">3</a></td>
+            <td><a td id="4" class="button" href="/daily_journal_entry">4</a></td>
+            <td><a td id="5" class="button" href="/daily_journal_entry">5</a></td>
+            <td><a td id="6" class="button" href="/daily_journal_entry">6</a></td>
+            <td><a td id="7" class="button" href="/daily_journal_entry">7</a></td>
+        </tr>
+        <tr>
+            <td><a td id="8" class="button" href="/daily_journal_entry">8</a></td>
+            <td><a td id="9" class="button" href="/daily_journal_entry">9</a></td>
+            <td><a td id="10" class="button" href="/daily_journal_entry">10</a></td>
+            <td><a td id="11" class="button" href="/daily_journal_entry">11</a></td>
+            <td><a td id="12" class="button" href="/daily_journal_entry">12</a></td>
+            <td><a td id="13" class="button" href="/daily_journal_entry">13</a></td>
+            <td><a td id="14" class="button" href="/daily_journal_entry">14</a></td>
+        </tr>
+        <tr>
+            <td><a td id="15" class="button" href="/daily_journal_entry">15</a></td>
+            <td><a td id="16" class="button" href="/daily_journal_entry">16</a></td>
+            <td><a td id="17" class="button" href="/daily_journal_entry">17</a></td>
+            <td><a td id="18" class="button" href="/daily_journal_entry">18</a></td>
+            <td><a td id="19" class="button" href="/daily_journal_entry">19</a></td>
+            <td><a td id="20" class="button" href="/daily_journal_entry">20</a></td>
+            <td><a td id="21" class="button" href="/daily_journal_entry">21</a></td>
+        </tr>
+        <tr>
+            <td><a td id="22" class="button" href="/daily_journal_entry">22</a></td>
+            <td><a td id="23" class="button" href="/daily_journal_entry">23</a></td>
+            <td><a td id="24" class="button" href="/daily_journal_entry">24</a></td>
+            <td><a td id="25" class="button" href="/daily_journal_entry">25</a></td>
+            <td><a td id="26" class="button" href="/daily_journal_entry">26</a></td>
+            <td><a td id="27" class="button" href="/daily_journal_entry">27</a></td>
+            <td><a td id="28" class="button" href="/daily_journal_entry">28</a></td>
+        </tr>
+        <tr>
+            <td><a td id="29" class="button" href="/daily_journal_entry">29</a></td>
+            <td><a td id="30" class="button" href="/daily_journal_entry">30</a></td>
+            <td><a td id="31" class="button" href="/daily_journal_entry">31</a></td>
+            <td><a td id="32" class="button" href="/daily_journal_entry">32</a></td>
+            <td><a td id="33" class="button" href="/daily_journal_entry">33</a></td>
+            <td><a td id="34" class="button" href="/daily_journal_entry">34</a></td>
+            <td><a td id="35" class="button" href="/daily_journal_entry">35</a></td>
+        </tr>
+        <tr>
+            <td><a td id="36" class="button" href="/daily_journal_entry">36</a></td>
+            <td><a td id="36" class="button" href="/daily_journal_entry">37</a></td>
+            <td><a td id="38" class="button" href="/daily_journal_entry">38</a></td>
+            <td><a td id="39" class="button" href="/daily_journal_entry">39</a></td>
+            <td><a td id="40" class="button" href="/daily_journal_entry">40</a></td>
+            <td><a td id="41" class="button" href="/daily_journal_entry">41</a></td>
+            <td><a td id="42" class="button" href="/daily_journal_entry">42</a></td>
+        </tr>
+        <tr>
+            <td><a td id="43" class="button" href="/daily_journal_entry">43</a></td>
+            <td><a td id="44" class="button" href="/daily_journal_entry">44</a></td>
+            <td><a td id="45" class="button" href="/daily_journal_entry">45</a></td>
+            <td><a td id="46" class="button" href="/daily_journal_entry">46</a></td>
+            <td><a td id="47" class="button" href="/daily_journal_entry">47</a></td>
+            <td><a td id="48" class="button" href="/daily_journal_entry">48</a></td>
+            <td><a td id="49" class="button" href="/daily_journal_entry">49</a></td>
+        </tr>
+        <tr>
+            <td><a td id="50" class="button" href="/daily_journal_entry">50</a></td>
+            <td><a td id="51" class="button" href="/daily_journal_entry">51</a></td>
+            <td><a td id="52" class="button" href="/daily_journal_entry">52</a></td>
+            <td><a td id="53" class="button" href="/daily_journal_entry">53</a></td>
+            <td><a td id="54" class="button" href="/daily_journal_entry">54</a></td>
+            <td><a td id="55" class="button" href="/daily_journal_entry">55</a></td>
+            <td><a td id="56" class="button" href="/daily_journal_entry">56</a></td>
+        </tr>
+        <tr>
+            <td><a td id="57" class="button" href="/daily_journal_entry">57</a></td>
+            <td><a td id="58" class="button" href="/daily_journal_entry">58</a></td>
+            <td><a td id="59" class="button" href="/daily_journal_entry">59</a></td>
+            <td><a td id="60" class="button" href="/daily_journal_entry">60</a></td>
+        </tr>
+        </tbody>
+
+    </table>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<script src="js/jquery.min.js"></script>
+<script src="js/popper.js+bootstrap.min.js+main.js.pagespeed.jc.y49NUCeWER.js"></script><script>eval(mod_pagespeed_NLpI8FaOHB);</script>
+<script>eval(mod_pagespeed_4ILN6Wloig);</script>
+<script>eval(mod_pagespeed_$gk7AfUuGw);</script>
+<script defer="" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon="{&quot;rayId&quot;:&quot;672c26e95c72fd5a&quot;,&quot;token&quot;:&quot;cd0b4b3a733644fc843ef0b185f98241&quot;,&quot;version&quot;:&quot;2021.7.0&quot;,&quot;si&quot;:10}"></script>
+
+
+</body></html>
+{% endblock content %}

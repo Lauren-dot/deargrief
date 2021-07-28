@@ -152,7 +152,7 @@ def register_new_journal():
     return render_template("new_journal_registration.html", title="New Journal Registration", form=form)
 
 
-@app.route("/daily_journal_entry", methods=["GET", "POST"], defaults={'day_number': None})
+@app.route("/daily_journal_entry", methods=["GET", "POST"]) #, defaults={'day_number': None})
 @app.route("/daily_journal_entry/<int:day_number>", methods=["GET", "POST"])
 @login_required
 def new_entry(day_number):
@@ -170,7 +170,7 @@ def new_entry(day_number):
         # After that: dropdb and createdb again to make sure the backend changes are implimented
         # See my_account.html to note shifts in the html code as well
             entry = JournalEntry(
-                        
+
                         momentary_monitoring=form.momentary_monitoring.data,
                         entry=form.entry.data,
                         )

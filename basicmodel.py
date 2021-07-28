@@ -92,15 +92,15 @@ class GriefSequence(db.Model):
         return greeting
 
 
-class Prompts(db.Model):
+class Prompt(db.Model):
     """Information which will spark an entry from a bereaved person about a deceased person"""
     __tablename__ = "prompts"
 
     id = db.Column(db.Integer, autoincrement=True, nullable=False, primary_key=True)
+    count = db.Column(db.Integer, nullable=False)
     day_number = db.Column(db.String, nullable=False)
     momentary_monitoring = db.Column(db.String, nullable=False)
     prompt = db.Column(db.Text, nullable=False)
-
     def __repr__(self):
         """Show information about the prompts."""
         
@@ -116,10 +116,10 @@ class JournalEntry(db.Model):
 
     id = db.Column(db.Integer, autoincrement=True, nullable=False, primary_key=True)
     grief_connection_id = db.Column(db.Integer, db.ForeignKey("grief_connection.id"), nullable=False)
-    prompt_id = db.Integer, db.Column(db.ForeignKey("prompts.id"), nullable=False)
+    prompt_id = db.Column(db.Integer, db.ForeignKey("prompts.id"), nullable=False)
     entry = db.Column(db.Text, nullable=False)
 
-    prompts = db.relationship("Prompts", backref="journal_entries")
+    prompts = db.relationship("Prompt", backref="journal_entries")
 
     #Consult on "backref", etc for all of this
 

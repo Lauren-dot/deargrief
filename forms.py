@@ -39,11 +39,6 @@ class RegistrationForm(FlaskForm): #uses FlaskForm (imported above) to create a 
 
     def validate_email(self, email):
         #Checks that email is unique.
-        print("<<<<<<<<<<<<<<<<<<<<<<<")
-        print("<<<<<<<<<<<<<<<<<<<<<<<")
-        print(email.data)
-        print("<<<<<<<<<<<<<<<<<<<<<<<")
-        print("<<<<<<<<<<<<<<<<<<<<<<<")
         bereaved_email = Bereaved.query.filter_by(email=email.data).first()
         if bereaved_email:
             raise ValidationError("An account already exists with this email. Please log in or try another email to register.")

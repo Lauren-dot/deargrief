@@ -146,6 +146,7 @@ def new_entry():
     # We need a set of prompts
     # We need an entry form
     # We need to commit the entry form
+
     form = NewEntryForm()
     if form.validate_on_submit():
         #To Do: Fix what you pass into the database here by looking at logic from 116-134; 

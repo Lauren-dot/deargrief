@@ -95,7 +95,7 @@ class NewEntryForm(FlaskForm): #uses FlaskForm (imported above) to create a new 
                         ('10', 'Well Adjusted'),
                         ])
     entry = TextAreaField(
-                    "Dear Grief,", 
+                    "Dear Grief,",
                     validators=[DataRequired()])
 
     submit = SubmitField("Save")

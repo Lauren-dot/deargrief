@@ -79,7 +79,7 @@ class GriefSequence(db.Model):
     grief_connection_id = db.Column(db.Integer, db.ForeignKey("grief_connection.id"), nullable=False)
     start_date = db.Column(db.DateTime, nullable=False, default=datetime.now) 
     most_recent_update = db.Column(db.DateTime, nullable=False)
-    most_recent_day = db.Column(db.Integer, nullable=False) 
+    most_recent_day = db.Column(db.Integer, autoincrement=True, nullable=False) 
 
     grief_connection = db.relationship("GriefConnection", backref="grief_sequence")
 
@@ -117,9 +117,11 @@ class JournalEntry(db.Model):
     id = db.Column(db.Integer, nullable=False, primary_key=True)
     grief_connection_id = db.Column(db.Integer, db.ForeignKey("grief_connection.id"), nullable=False)
     prompt_day = db.Column(db.Integer, nullable=False)
+    momentary_monitoring = db.Column(db.Integer, nullable=False)
     entry = db.Column(db.Text, nullable=False)
 
-    #Consult on "backref", etc for all of this
+    #Consult on how to connect this:
+    #grief_connection = db.relationship("GriefConnection", backref="journal_entries")
 
     def __repr__(self):
         """Show information about each journal entry"""

@@ -2,10 +2,9 @@
 {% block content %}
 
     <h1>Hello, {{ current_user.firstname }}. Please open up your grief journals or register for a new one. </h1>
-    <!-- Option 1 -->
     {% for deceased in deceased_persons %}
     <div class="content-section">
-        <h2><a href="/daily_journal_entry">Your journal about your {{ deceased.relationship }}, {{ deceased.firstname }}</a></h2> 
+        <h2><a href="/daily_journal_entry">Your journal about your {{ deceased.griefrelationship }}, {{ deceased.firstname }}</a></h2> 
         To Do: double check that daily_journal_entry.html form creates the correct form for the correct account
     </div>
     {% endfor %}

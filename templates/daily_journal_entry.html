@@ -3,49 +3,48 @@
     <h1>Today, please write about: </h1>
     <!-- if prompt.count == griefsequence.most_recent_day  is a potential solution -->
     <!-- Think through: How do I really want to access this and where? -->   
-    <h2>{{ prompts[0].day_number }}</h2> <!-- Out of the dictionary prompt, calls value of daily_prompt -->
-        <form>
-            <div class="content-section">
-                <form method="POST" action="">
-                    {{ form.hidden_tag() }} <!-- Accessing the form instance; Adds a CSRF Token -->
-                    <fieldset class="form-group">
-                        <legend class="border-bottom mb-4">Dear Grief
-                            <div class="form-group">
-                                {{ form.momentary_monitoring.label(class="form-control-label") }} <!-- .label will print out the username from our form field. Plus some bootstrap to make it look better-->
-                                
-                                {% if form.momentary_monitoring.errors %} <!-- if the form has an error in the username entry, create an error alert -->
-                                    {{ form.momentary_monitoring(class="form-control form-control-lg is-invalid") }}
-                                    <div class="invalid-form-feedback">
-                                        {% for error in form.momentary_monitoring.errors %}
-                                            <span>{{ error }}</span>
-                                        {% endfor %}
-                                    </div>
-                                {% else %} <!-- if the form does not have errors, proceed as normal -->
-                                    {{ form.momentary_monitoring(class="form-control form-control-med") }} 
-                                {% endif %}
-                            </div>
-                            <div class="form-group">
-                                {{ form.entry.label(class="form-control-label") }} <!-- .label will print out the username from our form field. Plus some bootstrap to make it look better-->
-                              <h2>{{ prompts[0].prompt }}</h2>
-                              <input type="text" class="form-control" id="entry" placeholder="Dear Grief,">
-                                {% if form.entry.errors %} <!-- if the form has an error in the username entry, create an error alert -->
-                                    {{ form.entry(class="form-control form-control-lg is-invalid") }}
-                                    <div class="invalid-form-feedback">
-                                        {% for error in form.entry.errors %}
-                                            <span>{{ error }}</span>
-                                        {% endfor %}
-                                    </div>
-                                {% else %} <!-- if the form does not have errors, proceed as normal -->
-                                    {{ form.entry(class="form-control form-control-lg") }} 
-                                {% endif %}
-                            </div>
-                            </div>
-                        </legend>
-                    </fieldset>
-                    <div class="form-group">
-                        {{ form.submit(class="btn btn-outline-info") }}
-                    </div>
+    <h2>{{ prompt.day_number }}</h2> <!-- Out of the dictionary prompt, calls value of daily_prompt -->
+
+    <div class="content-section">
+        <form method="POST" action="">
+        {{ form.hidden_tag() }} <!-- Accessing the form instance; Adds a CSRF Token -->
+            <fieldset class="form-group">
+            <legend class="border-bottom mb-4">Dear Grief
+                <div class="form-group">
+                    {{ form.momentary_monitoring.label(class="form-control-label") }} <!-- .label will print out the username from our form field. Plus some bootstrap to make it look better-->
+                        {% if form.momentary_monitoring.errors %} <!-- if the form has an error in the username entry, create an error alert -->
+                            {{ form.momentary_monitoring(class="form-control form-control-lg is-invalid") }}
+                                <div class="invalid-form-feedback">
+                                    {% for error in form.momentary_monitoring.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                        {% else %} <!-- if the form does not have errors, proceed as normal -->
+                            {{ form.momentary_monitoring(class="form-control form-control-med") }} 
+                        {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.entry.label(class="form-control-label") }} <!-- .label will print out the username from our form field. Plus some bootstrap to make it look better-->
+                        <h2>{{ prompt.prompt }}</h2>
+                        <input type="text" class="form-control" id="entry" placeholder="Dear Grief,">
+                            {% if form.entry.errors %} <!-- if the form has an error in the username entry, create an error alert -->
+                            {{ form.entry(class="form-control form-control-lg is-invalid") }}
+                                <div class="invalid-form-feedback">
+                                    {% for error in form.entry.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %} <!-- if the form does not have errors, proceed as normal -->
+                                {{ form.entry(class="form-control form-control-lg") }} 
+                            {% endif %}
+                </div>
+            </legend>
+            </fieldset>
+                <div class="form-group">
+                    {{ form.submit(class="btn btn-outline-info") }}
+                </div>
         </form>
-        <h3> {{ prompts[0].rationale }} </h3> <!-- Out of dictionary prompt, print the rational (why this prompt, why now) to help be transparent about grief guidance -->
+    </div>
+        <h3> {{ prompt.rationale }} </h3> <!-- Out of dictionary prompt, print the rational (why this prompt, why now) to help be transparent about grief guidance -->
 
 {% endblock content %}

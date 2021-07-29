@@ -1,3 +1,4 @@
+from basicmodel import GriefConnection
 import secrets
 from random import randint
 import os
@@ -57,7 +58,6 @@ def register():
         #bcrypt.check_password_hash(hashed_password, form.password.data)
 
         bereaved = Bereaved(
-                        id=randint(0, 1000000000),
                         firstname=form.firstname.data,
                         lastname=form.lastname.data,
                         email=form.email.data,
@@ -99,7 +99,7 @@ def login():
 @login_required
 def welcome_to_main_account():
 
-    return render_template("my_account.html")
+    return render_template("my_account.html", grief_connections=current_user.grief_connections)
 
 
 @app.route("/new_journal_registration", methods=["GET", "POST"])
@@ -116,7 +116,6 @@ def register_new_journal():
     print("************")
     if form.validate_on_submit():
         deceased = Deceased(
-                        id=randint(0, 1000000000),
                         firstname=form.firstname.data,
                         lastname=form.lastname.data,
                         griefrelationship=form.griefrelationship.data,
@@ -130,41 +129,58 @@ def register_new_journal():
         print("************")
         db.session.add(deceased)
         db.session.commit()
-        
-        current_user.deceased_persons.append(deceased)
+
+        grief_connection = GriefConnection(
+                            bereaved_id=current_user.id, 
+                            deceased_id=deceased.id,
+                        )
+        db.session.add(grief_connection)
         db.session.commit()
+        
+        # current_user.deceased_persons.append(deceased)
+        # db.session.commit()
 
         flash("Your new grief process has been started. Thank you for taking the next step on your path.", "success")
-        return render_template("my_account.html", deceased_persons=current_user.deceased_persons)
+        return render_template("my_account.html", grief_connections=current_user.grief_connections)
 
     return render_template("new_journal_registration.html", title="New Journal Registration", form=form)
 
 
-@app.route("/daily_journal_entry", methods=["GET", "POST"])
+
+@app.route("/daily_journal_entry/<int:grief_connection_id>", methods=["GET", "POST"])
 @login_required
-def new_entry():
-    # We need a set of prompts
-    # We need an entry form
-    # We need to commit the entry form
+def new_entry(grief_connection_id):
+
+    last_entry=JournalEntry.query.filter_by(grief_connection_id=grief_connection_id).order_by(db.desc(JournalEntry.id)).first()
+    if last_entry:
+        prompt_day = last_entry.prompt_day
+    else:
+        prompt_day = 0
 
     form = NewEntryForm()
     if form.validate_on_submit():
-        #To Do: Fix what you pass into the database here by looking at logic from 116-134; 
-        # don't forget to shift relationships in basicmodel.py (see line 22 and 39 for example)
-        # After that: dropdb and createdb again to make sure the backend changes are implimented
-        # See my_account.html to note shifts in the html code as well
         entry = JournalEntry(
-                        id=randint(0, 1000000000),
+                        grief_connection_id=grief_connection_id,
+                        prompt_day=prompt_day+1,
                         momentary_monitoring=form.momentary_monitoring.data,
                         entry=form.entry.data,
                         )
-
-        current_user.journal_entries.append(entry)
+        db.session.add(entry)
         db.session.commit()
-        
+
+        # current_user.journal_entries.append(entry)
+        # db.session.commit()
+        print("************")
+        print()
+        print()
+        print("Hello!")
+        print()
+        print()
+        print("************")
+
         flash("Your entry has been recorded. Thank you for taking one more step on your grief journey.", "succes")
-        return redirect("my_account", journal_entries=current_user.journal_entries)
-    return render_template("daily_journal_entry.html", form=form, prompts=prompts)
+        return render_template("my_account.html", grief_connections=current_user.grief_connections)
+    return render_template("daily_journal_entry.html", form=form, prompt=prompts[prompt_day], last_entry=last_entry)
 
 # #Stopping Point: This Route (July 14)
 # @app.route("/daily_journal_entry", methods=["GET", "POST"])

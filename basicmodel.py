@@ -12,14 +12,14 @@ class Bereaved(db.Model, UserMixin):
     """Data Model for a bereaved user"""
     __tablename__ = "bereaved_persons"
 
-    id = db.Column(db.Integer, nullable=False, primary_key=True)
+    id = db.Column(db.Integer, autoincrement=True, nullable=False, primary_key=True)
     firstname = db.Column(db.String(50), nullable=False)
     lastname = db.Column(db.String(50), nullable=False)
     email = db.Column(db.String(100), unique=True, nullable=False)
     password = db.Column(db.String(100), nullable=False)
     #date_first_registered = db.Column(TIMESTAMP) <-- Not for MVP: Make sure to impliment across the board
 
-    deceased_persons = db.relationship("Deceased", secondary="grief_connection", backref="bereaved_persons") 
+    #deceased_persons = db.relationship("Deceased", secondary="grief_connection", backref="bereaved_persons") 
 
     def __repr__(self):
         """Show information about bereaved user"""
@@ -33,7 +33,7 @@ class Deceased(db.Model):
     """Data Model for a deceased person"""
     __tablename__ = "deceased_persons"
 
-    id = db.Column(db.Integer, nullable=False, primary_key=True)
+    id = db.Column(db.Integer, autoincrement=True, nullable=False, primary_key=True)
     firstname = db.Column(db.String(50), nullable=False)
     lastname = db.Column(db.String(50), nullable=False)
     griefrelationship = db.Column(db.String(100), nullable=False)
@@ -56,11 +56,12 @@ class GriefConnection(db.Model):
 
     __tablename__ = "grief_connection"
     
-    id = db.Column(db.Integer, nullable=False, primary_key=True)
+    id = db.Column(db.Integer, autoincrement=True, nullable=False, primary_key=True)
     bereaved_id = db.Column(db.Integer, db.ForeignKey("bereaved_persons.id"), nullable=False)
     deceased_id = db.Column(db.Integer, db.ForeignKey("deceased_persons.id"), nullable=False)
-    # deceased_persons = db.relationship("Deceased", backref="grief_connection")
-    # bereaved_person = db.relationship("Bereaved", backref="grief_connection")
+
+    deceased_person = db.relationship("Deceased", backref="grief_connections")
+    bereaved_person = db.relationship("Bereaved", backref="grief_connections")
 
     def __repr__(self):
         """Show connection between the bereaved and deceased"""
@@ -75,11 +76,11 @@ class GriefSequence(db.Model):
     is in the cycle of this particuar grief with this particular loss"""
     __tablename__ = "grief_sequence"
 
-    id = db.Column(db.Integer, nullable=False, primary_key=True)
+    id = db.Column(db.Integer, autoincrement=True, nullable=False, primary_key=True)
     grief_connection_id = db.Column(db.Integer, db.ForeignKey("grief_connection.id"), nullable=False)
     start_date = db.Column(db.DateTime, nullable=False, default=datetime.now) 
     most_recent_update = db.Column(db.DateTime, nullable=False)
-    most_recent_day = db.Column(db.Integer, autoincrement=True, nullable=False) 
+    most_recent_day = db.Column(db.Integer, nullable=False) 
 
     grief_connection = db.relationship("GriefConnection", backref="grief_sequence")
 
@@ -95,7 +96,7 @@ class Prompts(db.Model):
     """Information which will spark an entry from a bereaved person about a deceased person"""
     __tablename__ = "prompts"
 
-    id = db.Column(db.Integer, nullable=False, primary_key=True)
+    id = db.Column(db.Integer, autoincrement=True, nullable=False, primary_key=True)
     day_number = db.Column(db.Integer, nullable=False)
     momentary_monitoring = db.Column(db.String, nullable=False)
     prompt = db.Column(db.Text, nullable=False)
@@ -114,7 +115,7 @@ class JournalEntry(db.Model):
     Pairs unique bereaved-deceased grief connection with chosen prompt series and particular prompt for journal entry"""
     __tablename__ = "journal_entries"
 
-    id = db.Column(db.Integer, nullable=False, primary_key=True)
+    id = db.Column(db.Integer, autoincrement=True, nullable=False, primary_key=True)
     grief_connection_id = db.Column(db.Integer, db.ForeignKey("grief_connection.id"), nullable=False)
     prompt_day = db.Column(db.Integer, nullable=False)
     momentary_monitoring = db.Column(db.Integer, nullable=False)

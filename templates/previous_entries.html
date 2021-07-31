@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<body>
+<div>
+    {% for previous_entry in previous_entries %}
+    <div>
+    <p>On {{ prompt.day_number }}, you wrote: </p>
+    <p>{{ previous_entry }}</p>
+    </div>
+</div>
+</body>
+
+{% endblock content %}

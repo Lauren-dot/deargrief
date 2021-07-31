@@ -146,7 +146,6 @@ def register_new_journal():
     return render_template("new_journal_registration.html", title="New Journal Registration", form=form)
 
 
-
 @app.route("/daily_journal_entry/<int:grief_connection_id>", methods=["GET", "POST"])
 @login_required
 def new_entry(grief_connection_id):
@@ -181,6 +180,16 @@ def new_entry(grief_connection_id):
         flash("Your entry has been recorded. Thank you for taking one more step on your grief journey.", "succes")
         return render_template("my_account.html", grief_connections=current_user.grief_connections)
     return render_template("daily_journal_entry.html", form=form, prompt=prompts[prompt_day], last_entry=last_entry)
+
+
+@app.route("/previous_entries/<int:grief_connection_id>", methods=["GET", "POST"])
+@login_required
+def gather_previous_entries(grief_connection_id):
+
+    previous_entries=JournalEntry.query.filter_by(grief_connection_id=grief_connection_id).all()
+
+    return render_template("previous_entries.html", grief_connections=current_user.grief_connections, prompt=prompts, previous_entries=previous_entries)
+
 
 # #Stopping Point: This Route (July 14)
 # @app.route("/daily_journal_entry", methods=["GET", "POST"])

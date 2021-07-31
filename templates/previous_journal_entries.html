@@ -6,14 +6,14 @@
             {% if grief_squence.status.data = "completed" %}
                 You completed our process. If your grief feels stuck again, there is help.
             {% else %}
-                The status for this grief process is {{ grief_squence.status.data }}.<br>
-                You are at day {{ grief_squence.most_recent_day.data }} of your process.<br>
-                Continue on your process by clicking <a href="daily_journal_entry.html">here.</a>
+                The status for this grief process is {{ grief_sequence.status.data }}.<br>
+                You are at day {{ grief_sequence.most_recent_day.data }} of your process.<br>
+                Continue on your process by clicking <a href="/daily_journal_entry">here.</a>
                 Or look through the evolution of your grief so far.
             {% endif%}
         </h2>
     </div>>
-    {% for journal_entry in journal_entries %}
+    {% for previous_entry in previous_entries %}
         <article class="media content-section">
             <div class="media-body">
                 <div class="entry-metadata">

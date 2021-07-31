@@ -1,14 +1,11 @@
 from basicmodel import GriefConnection
 import secrets
-from random import randint
 import os
 from flask import Flask, request, render_template, flash, redirect
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, login_user, current_user, logout_user, login_required
 from prompts import prompts
-#from forms import RegistrationForm, LogInForm
-#from basicmodel import Bereaved, Deceased
 
 app = Flask(__name__) 
 secret_key = secrets.token_hex(16)
@@ -87,7 +84,7 @@ def login():
     if form.validate_on_submit():
         bereaved = Bereaved.query.filter_by(email=form.email.data).first()
         password = Bereaved.query.filter_by(password=form.password.data).first()
-        if bereaved and password: # use Bcrypt.check_password_hash(bereaved.password, form.password.data): after debugging password hashing
+        if bereaved and password: # After MVP: use Bcrypt.check_password_hash(bereaved.password, form.password.data): after debugging password hashing
             login_user(bereaved, remember=form.remember.data)
             return redirect("/my_account")
         else:
@@ -189,37 +186,6 @@ def gather_previous_entries(grief_connection_id):
     previous_entries=JournalEntry.query.filter_by(grief_connection_id=grief_connection_id).all()
 
     return render_template("previous_entries.html", grief_connections=current_user.grief_connections, prompt=prompts, previous_entries=previous_entries)
-
-
-# #Stopping Point: This Route (July 14)
-# @app.route("/daily_journal_entry", methods=["GET", "POST"])
-# @login_required
-# def new_entry():
-#     form = NewEntryForm()
-#     if form.validate_on_submit():
-#         entry = JournalEntry(
-#                 id=random.uniform(0.1, 10000.1)
-#                 grief_connection_id=db.session.grief_connection.id #is this the correct syntax for this? Code Check
-#                 momentary_monitoring=form.momentary_monitoring.data
-#                 entry=form.entry.data
-#         )
-        
-#         db.session.add(entry)
-#         db.session.commit()
-    
-#         flash("Thank you for making another step on your journey through the grief process.", "success")
-#         return redirect("/my_account")
-#     return render_template("daily_journal_entry.html", form=form)
-
-# #     #To Do
-# #     #Match number of days to database containing the day-by-day prompts
-
-# #     #Calendar counter corresponds to the index of days of journaling
-# #     #Each calendar counter starts with a unique deceased and bereaved combination
-
-# #     #return render_template("daily_journal_entry.html", prompts=prompts) 
-# #     #when database "prompts" and html are ready, take out the first ) to access the database 
-# #     #and be able to pass it to the html file
 
 
 @app.route("/logout")

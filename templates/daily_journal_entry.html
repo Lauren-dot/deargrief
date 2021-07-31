@@ -9,7 +9,7 @@
         <form method="POST" action="">
         {{ form.hidden_tag() }} <!-- Accessing the form instance; Adds a CSRF Token -->
             <fieldset class="form-group">
-            <legend class="border-bottom mb-4">Dear Grief
+            <legend class="border-bottom mb-4">
                 <div class="form-group">
                     {{ form.momentary_monitoring.label(class="form-control-label") }} <!-- .label will print out the username from our form field. Plus some bootstrap to make it look better-->
                         {% if form.momentary_monitoring.errors %} <!-- if the form has an error in the username entry, create an error alert -->
@@ -24,8 +24,10 @@
                         {% endif %}
                 </div>
                 <div class="form-group">
-                    {{ form.entry.label(class="form-control-label") }} <!-- .label will print out the username from our form field. Plus some bootstrap to make it look better-->
-                        <h2>{{ prompt.prompt }}</h2>
+                   <!--  {{ form.entry.label(class="form-control-label") }} .label will print out the username from our form field. Plus some bootstrap to make it look better-->
+                        <div class="prompt">
+                        {{ prompt.prompt }}
+                        </div>
                         <input type="text" class="form-control" id="entry" placeholder="Dear Grief,">
                             {% if form.entry.errors %} <!-- if the form has an error in the username entry, create an error alert -->
                             {{ form.entry(class="form-control form-control-lg is-invalid") }}

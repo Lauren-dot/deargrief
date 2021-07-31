@@ -1,9 +1,15 @@
+
+.prompt {
+    color: #2e3a42;
+}
+
 body {
     background: #333333;
     color: #fafafa;
     margin-top: 5rem;
   }
   
+
   h1, h2, h3, h4, h5, h6 {
     color: #d9e4eb;
   }
@@ -35,5 +41,7 @@ body {
     border-radius: 3px;
     margin-bottom: 20px;
   }
+
+  
 
   

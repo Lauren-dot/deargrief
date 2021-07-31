@@ -36,7 +36,7 @@
             <!-- Right Side of NavBar -->
             <div class="navbar-nav">
               {% if current_user.is_authenticated %}
-                <a class="nav-item nav-link" href="/daily_journal_entry">New Journal Entry</a>
+                <a class="nav-item nav-link" href="/my_account">My Account</a>
                 <a class="nav-item nav-link" href="/new_journal_registration">Start New Grief Process</a>
                 <a class="nav-item nav-link" href="/logout">Log Out</a>
               {% else %}
@@ -59,7 +59,7 @@
           <p class="text-multed">A Library of Your Journals
             <ul class="list-group">
               <li class="list-group-item list-group-item-light">Momentary Monitoring, Lately</li> <!-- Link to: Graph of Momentary Monitoring -->
-              <li class="list-group-item list-group-item-light"><a class="nav-item nav-link" href="/previous_entries/<int:grief_connection_id>">Previous Entries for this Journal</a></li> <!-- Link to: Previous Entries for this particular bereavement Journal-->
+              <li class="list-group-item list-group-item-light"><a class="nav-item nav-link" href="/previous_entries">Previous Entries for this Journal</a></li> <!-- Link to: Previous Entries for this particular bereavement Journal-->
               <li class="list-group-item list-group-item-light">Other Bereavement Journals</li> <!-- Link to: All this User's Bereavment Journals made of all varieties -->
               <li class="list-group-item list-group-item-light">Your Profile Page</li> 
             </ul>

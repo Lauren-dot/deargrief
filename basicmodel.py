@@ -59,7 +59,6 @@ class GriefConnection(db.Model):
     id = db.Column(db.Integer, autoincrement=True, nullable=False, primary_key=True)
     bereaved_id = db.Column(db.Integer, db.ForeignKey("bereaved_persons.id"), nullable=False)
     deceased_id = db.Column(db.Integer, db.ForeignKey("deceased_persons.id"), nullable=False)
-
     deceased_person = db.relationship("Deceased", backref="grief_connections")
     bereaved_person = db.relationship("Bereaved", backref="grief_connections")
 

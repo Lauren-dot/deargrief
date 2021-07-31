@@ -2,22 +2,15 @@
 {% block content %}
     <div class="journal-metadata">
         <h2>
-            This process honors the connection between you and your {{ deceased.relationship.data }}, {{ deceased.firstname.data }}.<br>
-            {% if grief_squence.status.data = "completed" %}
-                You completed our process. If your grief feels stuck again, there is help.
-            {% else %}
-                The status for this grief process is {{ grief_sequence.status.data }}.<br>
-                You are at day {{ grief_sequence.most_recent_day.data }} of your process.<br>
-                Continue on your process by clicking <a href="/daily_journal_entry">here.</a>
-                Or look through the evolution of your grief so far.
-            {% endif%}
+            Hello, {{ current_user.firstname }}.<br>
+            This process honors the connection between you and your {{ grief_connection.deceased_person.griefrelationship }}, {{ grief_connection.deceased_person.firstname }}.<br>
         </h2>
     </div>>
     {% for previous_entry in previous_entries %}
         <article class="media content-section">
             <div class="media-body">
                 <div class="entry-metadata">
-                    <a class="entry-title" href="#">On day {{ journal_entry.prompt_day }} of this grief journey, you wrote</a>
+                    <p class="entry-title">On day {{ journal_entry.prompt_day }} of this grief journey, you wrote</a>
                     <p class="entry-content">{{ journal_entry.entry }}</p>
                 </div>
             </div>

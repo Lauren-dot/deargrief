@@ -1,20 +1,21 @@
-{% extends layout.html %}
+{% extends "layout.html" %}
 {% block content %}
     <div class="journal-metadata">
         <h2>
             Hello, {{ current_user.firstname }}.<br>
             This process honors the connection between you and your {{ grief_connection.deceased_person.griefrelationship }}, {{ grief_connection.deceased_person.firstname }}.<br>
         </h2>
-    </div>>
+    </div>
+    <div>
     {% for previous_entry in previous_entries %}
         <article class="media content-section">
             <div class="media-body">
                 <div class="entry-metadata">
-                    <p class="entry-title">On day {{ journal_entry.prompt_day }} of this grief journey, you wrote</a>
-                    <p class="entry-content">{{ journal_entry.entry }}</p>
+                    <p class="entry-title">On Day {{ previous_entry.prompt_day }} of this grief journey, you wrote</a>
+                    <p class="entry-content">{{ previous_entry.entry }}</p>
                 </div>
             </div>
         </article>
-
     {% endfor %}
+    </div>
 {% endblock content %}

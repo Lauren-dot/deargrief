@@ -120,8 +120,7 @@ class JournalEntry(db.Model):
     momentary_monitoring = db.Column(db.Integer, nullable=False)
     entry = db.Column(db.Text, nullable=False)
 
-    #Consult on how to connect this:
-    #grief_connection = db.relationship("GriefConnection", backref="journal_entries")
+    grief_connection = db.relationship("GriefConnection", backref="journal_entries")
 
     def __repr__(self):
         """Show information about each journal entry"""

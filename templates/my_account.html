@@ -4,8 +4,8 @@
     <h1>Hello, {{ current_user.firstname }}. Please open up your grief journals or register for a new one. </h1>
     {% for grief_connection in grief_connections %}
     <div class="content-section">
-        <h2><a href="/daily_journal_entry/{{ grief_connection.id }}">Your journal about your {{ grief_connection.deceased_person.griefrelationship }}, {{ grief_connection.deceased_person.firstname }}</a></h2> 
-        To Do: double check that daily_journal_entry.html form creates the correct form for the correct account
+        <h2><a href="/daily_journal_entry/{{ grief_connection.id }}">Make a new entry about your {{ grief_connection.deceased_person.griefrelationship }}, {{ grief_connection.deceased_person.firstname }}</a></h2> 
+        <h2><a href="/previous_journal_entries/{{ grief_connection.id }}">Your previous journal about your {{ grief_connection.deceased_person.griefrelationship }}, {{ grief_connection.deceased_person.firstname }}</a></h2>
     </div>
     {% endfor %}
     <h2>To open up a new journal, <a href="/new_journal_registration">click here.</a></h2>

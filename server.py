@@ -102,28 +102,16 @@ def welcome_to_main_account():
 @app.route("/new_journal_registration", methods=["GET", "POST"])
 @login_required
 def register_new_journal():
+
     form = NewJournalForm()
-    print("************")
-    print()
-    print()
-    print(current_user)
-    print(current_user.id)
-    print()
-    print()
-    print("************")
+
     if form.validate_on_submit():
         deceased = Deceased(
                         firstname=form.firstname.data,
                         lastname=form.lastname.data,
                         griefrelationship=form.griefrelationship.data,
                         )
-        print("************")
-        print()
-        print()
-        print(deceased)
-        print()
-        print()
-        print("************")
+
         db.session.add(deceased)
         db.session.commit()
 
@@ -133,9 +121,6 @@ def register_new_journal():
                         )
         db.session.add(grief_connection)
         db.session.commit()
-        
-        # current_user.deceased_persons.append(deceased)
-        # db.session.commit()
 
         flash("Your new grief process has been started. Thank you for taking the next step on your path.", "success")
         return render_template("my_account.html", grief_connections=current_user.grief_connections)
@@ -164,16 +149,6 @@ def new_entry(grief_connection_id):
         db.session.add(entry)
         db.session.commit()
 
-        # current_user.journal_entries.append(entry)
-        # db.session.commit()
-        print("************")
-        print()
-        print()
-        print("Hello!")
-        print()
-        print()
-        print("************")
-
         flash("Your entry has been recorded. Thank you for taking one more step on your grief journey.", "succes")
         return render_template("my_account.html", grief_connections=current_user.grief_connections)
     return render_template("daily_journal_entry.html", form=form, prompt=prompts[prompt_day], last_entry=last_entry)
@@ -192,6 +167,7 @@ def gather_previous_entries(grief_connection_id):
 def logout():
     logout_user()
     return redirect("/home")
+
 
 #To run flask directly
 if __name__ == '__main__':

@@ -42,6 +42,13 @@ body {
     margin-bottom: 20px;
   }
 
+  a {
+    color: #3d6179;
+  }
   
+  /* selected link */
+  a:active {
+    color: #104263;
+  }
 
   

@@ -1,9 +1,9 @@
 {% extends "layout.html" %}
 {% block content %}
 
-    <h1>Hello, {{ current_user.firstname }}. <br> <br>
-        Please open up your grief journals or register for a new one. 
-    </h1>
+    <h1>Hello, {{ current_user.firstname }}. <br> </h1>
+    <h2><i>Please open up your grief journals or register for a new one. </i></h2>
+    
     {% for grief_connection in grief_connections %}
     <div class="content-section">
         <h4><a href="/daily_journal_entry/{{ grief_connection.id }}">Make a new entry about your {{ grief_connection.deceased_person.griefrelationship }}, {{ grief_connection.deceased_person.firstname }}.</a></h4> 

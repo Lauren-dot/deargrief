@@ -14,6 +14,10 @@ body {
     color: #d9e4eb;
     text-align: center;
   }
+
+  .flashes {
+    color: #fff09a;
+  }
   
   .content-section .form-group {
     color: #333333

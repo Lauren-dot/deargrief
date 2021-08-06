@@ -149,6 +149,12 @@ def new_entry(grief_connection_id):
         db.session.add(entry)
         db.session.commit()
 
+        # Future Feature Preview
+        # if JournalEntry.query.filter(
+        #     grief_connection_id=grief_connection_id,
+        #     entry.like("%I want to die%").one()):
+        #     flash("Help is available: National Suicide Prevention Lifeline: 1-800-273-TALK (8255)", "success")
+
         flash("Your entry has been recorded. Thank you for taking one more step on your grief journey.", "succes")
         return render_template("my_account.html", grief_connections=current_user.grief_connections)
     return render_template("daily_journal_entry.html", form=form, prompt=prompts[prompt_day], last_entry=last_entry)

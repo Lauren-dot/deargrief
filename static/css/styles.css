@@ -1,0 +1,100 @@
+
+.prompt, .entry-metadata {
+    color: #2e3a42;
+}
+
+body {
+    background: #333333;
+    background-image: url(../img/treehomepage.jpeg);
+    color: #fafafa;
+    margin-top: 3.5rem;
+    font-family: Trilong, serif;
+  }
+
+.top-bar {
+  height: 250px;
+  width: 100%;
+  text-align: center;
+  font-size: medium;
+  vertical-align: bottom;
+  background-image: url(../img/treerings.jpg);
+  background-size: cover;
+  font-family: "Sofia", sans-serif;
+}
+
+#homechoices {
+  font-family: 'Merriweather', serif;
+}
+
+#linkchoices {
+  background-color: #16222b;
+  border: 2px solid #dddddd;
+  margin: 3em;
+  padding: 3em;
+}
+
+.form {
+  margin-top: 10%;
+  margin-left: 10%;
+}
+
+/*
+body {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-image: url(../static/img/treehomepage.jpeg);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+*/
+  h1, h2, h3, h4, h5, h6 {
+    color: #d9e4eb;
+    text-align: center;
+  }
+
+  .flashes {
+    color: #fff09a;
+  }
+  
+  .content-section .form-group {
+    color: #333333
+  }
+
+  .bg-steel {
+    background-color: #2e3a42;
+  }
+  
+  .site-header .navbar-nav .nav-link {
+    color: #d9e4eb;
+  }
+  
+  .site-header .navbar-nav .nav-link:hover {
+    color: #d9e4eb;
+  }
+  
+  .site-header .navbar-nav .nav-link.active {
+    font-weight: 500;
+  }
+  
+  .content-section {
+    background: #fafafa;
+    padding: 10px 20px;
+    border: 1px solid #dddddd;
+    border-radius: 3px;
+    margin-bottom: 20px;
+  }
+
+  a {
+    color: #3d6179;
+  }
+  
+  /* selected link */
+  a:active {
+    color: #104263;
+  }
+
+  

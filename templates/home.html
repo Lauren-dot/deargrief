@@ -2,13 +2,30 @@
 {% extends "layout.html" %}
 {% block content %}
 
-<body>
-We are glad you are ready to take the next step on your grief journey. <br>
-To learn more about us, please <a href="/about">click here</a>.<br>
-To learn more about our process, please <a href="/process">click here</a>.<br>
-To sign up, please <a href="/register">click here</a>.<br>
-To log in, please <a href="/login">click here</a>.<br>
+<div>
+    <div class="top-bar">
+        We are glad you are ready to take the next step on your grief journey. <br>
+    </div>
+    <div class="container" id="homechoices">
+        <div class="row">
+            <div class="col" id="linkchoices">
+            To learn more about us, please <a href="/about">click here</a>.<br>
+            </div>
 
-</body>
+            <div class="col" id="linkchoices">
+            To learn more about our process, please <a href="/process">click here</a>.<br>
+            </div>
+
+            <div class="col" id="linkchoices">
+            To sign up, please <a href="/register">click here</a>.<br>
+            </div>
+
+            <div class="col" id="linkchoices">
+            To log in, please <a href="/login">click here</a>.<br>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 {% endblock %}

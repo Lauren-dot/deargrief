@@ -6,6 +6,7 @@
     <h2>{{ prompt.day_number }}</h2> <!-- Out of the dictionary prompt, calls value of daily_prompt -->
 
     <div class="content-section">
+        <div class="container" id="form">
         <form method="POST" action="">
         {{ form.hidden_tag() }} <!-- Accessing the form instance; Adds a CSRF Token -->
             <fieldset class="form-group">
@@ -46,6 +47,7 @@
                     {{ form.submit(class="btn btn-outline-info") }}
                 </div>
         </form>
+    </div>
     </div>
         <h3> {{ prompt.rationale }} </h3> <!-- Out of dictionary prompt, print the rational (why this prompt, why now) to help be transparent about grief guidance -->
 

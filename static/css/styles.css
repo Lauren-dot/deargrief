@@ -1,12 +1,15 @@
-
 .prompt, .entry-metadata {
     color: #2e3a42;
 }
 
+.dear-grief {
+  font-family: 'WindSong', cursive;
+}
+
 body {
     background: #333333;
-    background-image: url(../img/treehomepage.jpeg);
-    color: #fafafa;
+    background-image: url(../img/fogandlowforest.jpeg);
+    color: #d9e4eb;
     margin-top: 3.5rem;
     font-family: Trilong, serif;
   }
@@ -17,70 +20,145 @@ body {
   text-align: center;
   font-size: medium;
   vertical-align: bottom;
-  background-image: url(../img/treerings.jpg);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: #16222b;
   background-size: cover;
-  font-family: "Sofia", sans-serif;
+}
+
+.middle-bar {
+  height: 450px;
+  width: 100%;
+  text-align: center;
+  font-size: medium;
+  vertical-align: bottom;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: #16222b;
+  background-size: cover;
+}
+
+.middle-text {
+  color: #d9e4eb;
+  margin: 3em;
+  margin-left: 3em;
+  margin-right: 3em;
+  font-family: 'Merriweather', serif;
+  justify-content: center;
 }
 
 #homechoices {
   font-family: 'Merriweather', serif;
+  display:flex;
+  justify-content:center;
+  align-items:center;
 }
 
 #linkchoices {
   background-color: #16222b;
   border: 2px solid #dddddd;
   margin: 3em;
-  padding: 3em;
+  padding: 2em;
+  text-align: center;
+}
+
+.abouttext{
+  color: #16222b;
+  font-family: 'Merriweather', serif;
+  margin: 3em;
 }
 
 .form {
   margin-top: 10%;
   margin-left: 10%;
+  margin-left: 10%;
+  margin-right: 10%;
 }
 
-/*
-body {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-image: url(../static/img/treehomepage.jpeg);
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-size: cover;
-}
-*/
-  h1, h2, h3, h4, h5, h6 {
-    color: #d9e4eb;
+h2, h5, h6 {
+    color: #002944;
+    font-family: 'Merriweather', serif;
     text-align: center;
   }
 
-  .flashes {
-    color: #fff09a;
+h3, h4 {
+    color:#d9e4eb;
+    font-family: 'Style Script', cursive;
+}
+
+.Trilong-font {
+    color:#d9e4eb;
+    font-family: Trilong, serif;
+    text-align: center;
+    margin: 10px;
+}
+
+.Trilong-font2 {
+  color:#2e3a42;
+  font-family: Trilong, serif;
+  text-align: center;
+  margin: 10px;
+}
+
+.WindSong-font {
+    font-family: 'WindSong', cursive;
+    text-align: center;
+}
+
+.WindSong-font2 {
+  color:#2e3a42;
+  font-family: 'WindSong', cursive;
+  text-align: center;
+}
+
+.Merriweather-font-dark {
+  color:#2e3a42;
+  text-align: center;
+  font-family: 'Merriweather', serif;
+}
+
+.entry-metadata {
+  color:#2e3a42;
+  font-family: Trilong, serif;
+}
+
+dl, ol, ul {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.flashes {
+    background-color: #fdd700;
+    color: #2e3a42;
+    text-align: center;
   }
   
-  .content-section .form-group {
-    color: #333333
+.content-section .form-group {
+    color: #2e3a42;
+    font-family: Trilong, serif;
   }
 
-  .bg-steel {
+.bg-steel {
     background-color: #2e3a42;
   }
   
-  .site-header .navbar-nav .nav-link {
+.site-header .navbar-nav .nav-link {
     color: #d9e4eb;
   }
   
-  .site-header .navbar-nav .nav-link:hover {
-    color: #d9e4eb;
+.site-header .navbar-nav .nav-link:hover {
+    color: #fff09a;
+    font-family: 'Merriweather', italic, serif;
   }
   
-  .site-header .navbar-nav .nav-link.active {
+.site-header .navbar-nav .nav-link.active {
     font-weight: 500;
+
   }
   
-  .content-section {
+.content-section {
     background: #fafafa;
     padding: 10px 20px;
     border: 1px solid #dddddd;
@@ -89,12 +167,44 @@ body {
   }
 
   a {
-    color: #3d6179;
+    color: #fff09a;
   }
   
   /* selected link */
   a:active {
-    color: #104263;
+    color: #d9e4eb;
   }
 
-  
+  a:hover {
+    color: #a1c1d4;
+  }
+
+.my-account {
+    background-image: url(../img/treehomepage.jpeg);
+    background-size: cover;
+    color: #2e3a42;
+    text-emphasis-color: #2e3a42;
+}
+
+.account-content-section {
+    background-color: #2e3a42;  
+    border: #fcf5d1 2px solid;
+    margin-top: 3%;
+    margin-bottom: 3%;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+.top-of-prompt {
+  color: #16222b;
+}
+
+.top-text {
+  color: #d9e4eb;
+  font-family: 'WindSong', cursive;
+}
+
+.btn-outline-info {
+  color: #2e3a42;
+  border-color: #2e3a42;
+}

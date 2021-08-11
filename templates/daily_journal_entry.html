@@ -1,9 +1,13 @@
 {% extends "layout.html" %}
 {% block content %}
-    <h1>Today, please write about: </h1>
+<div class="top-of-prompt">
+    <br>
+    <h1 class="WindSong-font2">Day {{ prompt.day_number }}</h1> <!-- Out of the dictionary prompt, calls value of daily_prompt -->
+    <h2>Today, please write about: </h2>
     <!-- if prompt.count == griefsequence.most_recent_day  is a potential solution -->
     <!-- Think through: How do I really want to access this and where? -->   
-    <h2>{{ prompt.day_number }}</h2> <!-- Out of the dictionary prompt, calls value of daily_prompt -->
+    
+</div>
 
     <div class="content-section">
         <div class="container" id="form">
@@ -24,6 +28,7 @@
                             {{ form.momentary_monitoring(class="form-control form-control-med") }} 
                         {% endif %}
                 </div>
+                <br>
                 <div class="form-group">
                    <!--  {{ form.entry.label(class="form-control-label") }} .label will print out the username from our form field. Plus some bootstrap to make it look better-->
                         <div class="prompt">

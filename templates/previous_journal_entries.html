@@ -1,8 +1,9 @@
 {% extends "layout.html" %}
 {% block content %}
     <div class="journal-metadata">
-        <h2>
-            Hello, {{ current_user.firstname }}.<br>
+        <br>
+        <h1 class="WindSong-font2">Hello, {{ current_user.firstname }}. <br> </h1>
+        <h2 class="Trilong-font2">
             This process honors the connection between you and your {{ grief_connection.deceased_person.griefrelationship }}, {{ grief_connection.deceased_person.firstname }}.<br>
         </h2>
     </div>
@@ -11,8 +12,7 @@
         <article class="media content-section">
             <div class="media-body">
                 <div class="entry-metadata">
-                    <p class="entry-title">On Day {{ previous_entry.prompt_day }} of this grief journey, <br>
-                        in response to the prompt you wrote: </a>
+                    <h4 class="WindSong-font2">On Day {{ previous_entry.prompt_day }} of this grief journey, you wrote: </h4>
                     <p class="entry-content">{{ previous_entry.entry }}</p>
                 </div>
             </div>

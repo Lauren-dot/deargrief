@@ -150,8 +150,9 @@ def new_entry(grief_connection_id):
         db.session.commit()
 
         basic_suicidal_check = "I want to die" in entry.entry
+        basic_suicidal_check2 = "I want to commit suicide" in entry.entry
         #JournalEntry.query.filter(JournalEntry.entry.like("%" + "I want to die" + "%")).first()
-        if basic_suicidal_check:
+        if basic_suicidal_check or basic_suicidal_check2:
             flash("Help is available: National Suicide Prevention Lifeline: 1-800-273-TALK (8255)", "success")
      
         flash("Your entry has been recorded. Thank you for taking one more step on your grief journey.", "succes")

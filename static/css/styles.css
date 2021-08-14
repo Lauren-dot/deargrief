@@ -186,6 +186,21 @@ dl, ol, ul {
     text-emphasis-color: #2e3a42;
 }
 
+.thank-you {
+  background-image: url(../img/fog-in-the-treetops.jpeg);
+  background-size: cover;
+  color: #2e3a42;
+  text-emphasis-color: #2e3a42;
+}
+
+.thank-you-text {
+  text-align: left;
+  margin-top: 3%;
+  margin-bottom: 3%;
+  margin-left: 3%;
+  margin-right: 3%;
+}
+
 .account-content-section {
     background-color: #2e3a42;  
     border: #fcf5d1 2px solid;

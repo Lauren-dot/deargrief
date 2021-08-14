@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="thank-you">
+    <br>
+    <h1 class="WindSong-font">Thank you.<br> </h1>
+    <h3 class="Trilong-font2">
+        <div class="thank-you-text">
+        I am extraordinarily grateful for all of the learning opportunities created by Hackbright Academy. As a rabbi and a woman, making room for women in traditionally male spaces is important to me; I could not be either a rabbi or a software engineer without the trailblazers who came before me and those who make sure the doors for growth continuously stay open. I am deeply appreciative for the opportunity and safe space to learn at Hackbright as a whole and with my cohort in particular. <br> <br>
+        A special note, this project would not have been possible without the extraordinary help of our cohort's teachers, Seema, Marisa, and Anjelica; my advisor, Marisa; my mentor, David; and my friend, Matt.
+        </div>
+    </h3>
+    
+
+    <br>
+    <h1 class="WindSong-font">About this project. <br> </h1>
+    
+    <h3 class="Trilong-font2"> 
+        <div class="thank-you-text">
+        This project is near and dear to my heart. As a rabbi, counter-intuitively, one of my favorite ways to celebrate life is through death, and specifically through the process of grief. Grief is often under acknowledged in our society today. Yet being able to process grief well can make all the difference in how and whether an individual functions in their life at all. Being able to carry the love and complicated emotions that we have for another which can no longer be returned is an important skill. One that doesn’t necessarily come naturally to everyone. <br> <br>
+        Over the past few years of serving in the grief space, I came to recognize how important healthy grief processing is and how often individuals - particularly those without established ritualized communities who are capable of welcoming the bereaved and acknowledging their pain - need help. As a result, I created a sixty day reflection journal. <br> <br>
+        Our learning together at Hackbright enabled me to turn this guided grief journey into an interactive web application. As you can see, on the frontend, in addition to HTML and CSS, I used Bootstrap to create a more visually responsive site. <br> <br>
+        I used Python on the backend to create a server and set up my Postgres Database. As any particular individual can lose multiple people in their lives, the database enables each user to create any number of journals. Each particular grief connection - the tie between the bereaved and the deceased - contains a series of guided prompts, displayed one at a time. These are particular to where the bereaved is in their process concerning a specific person whom they are grieving. This enables a grieving person to more easily differentiate one grief process from another, which helps prevent transference - the mental, subconscious intertangling feelings - or at least make transference more transparent. <br> <br>
+        Through a function on this application’s backend and the power of Flask, the web app performs a simple check for suicidal ideation and flashes where to find help when needed. It was important to me that this interaction only reflected the most recently submitted entry, as, depending on the loss, suicidal ideation is normal, but also needs to be gently addressed before these feelings progress. At the same time, it was vital not to retrigger suicidal ideation for any particular user. <br> <br>
+        I used SQLAlchemy to make it is easy to for grieving users to view all their previous entries for each journal, so that they can see how their words and thoughts evolved throughout each grief process. This makes it easier for them to share their growth with a grief counselor, a therapist, or a trusted clergy member, like me. <br> <br>
+    </div>
+    </h3>
+    
+    <br>
+</div>
+{% endblock content %}

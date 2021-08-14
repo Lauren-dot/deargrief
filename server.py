@@ -40,6 +40,12 @@ def process():
     return render_template("process.html", title="Process")
 
 
+@app.route("/thank_you")
+def thankyou():
+
+    return render_template("thank_you.html", title="In Gratitude")
+
+
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if current_user.is_authenticated:

@@ -188,4 +188,4 @@ if __name__ == '__main__':
     from forms import RegistrationForm, LogInForm, NewJournalForm, NewEntryForm
     connect_to_db(app)
     #call "run" on our app
-    app.run(debug=True) #running with the debug on means that it will hotload when you refresh
+    app.run(debug=False) #running with the debug on means that it will hotload when you refresh
